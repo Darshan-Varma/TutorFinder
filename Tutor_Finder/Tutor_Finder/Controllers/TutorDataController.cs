@@ -120,7 +120,9 @@ namespace Tutor_Finder.Controllers
             Tutor Tutor = db.Tutors.Find(id);
             TutorDTO TutorDTOs = new TutorDTO()
             {
-                TutorID = Tutor.TutorID
+                TutorID = Tutor.TutorID,
+                TutorFirstName = Tutor.TutorFirstName,
+                TutorLastName = Tutor.TutorLastName
             };
             if (Tutor == null)
             {

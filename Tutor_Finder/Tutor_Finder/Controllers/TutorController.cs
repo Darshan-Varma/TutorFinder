@@ -54,6 +54,38 @@ namespace Tutor_Finder.Controllers
 
             return View(ViewModel);
         }
+        //GET: Tutor/DetailsLanguage/5
+        public ActionResult DetailsLanguage(int id)
+        {
+            TutorDetails ViewModel = new TutorDetails();
+            string url = "TutorData/FindTutor/" + id;
+            HttpResponseMessage response = client.GetAsync(url).Result;
+
+            TutorDTO Tutor = response.Content.ReadAsAsync<TutorDTO>().Result;
+            ViewModel.Tutor = Tutor;
+
+            url = "Studentdata/listStudentsforTutor/" + id;
+            response = client.GetAsync(url).Result;
+            IEnumerable<StudentDto> Students = response.Content.ReadAsAsync<IEnumerable<StudentDto>>().Result;
+            ViewModel.Student = Students;
+
+            url = "Studentdata/ListOtherStudents/" + id;
+            response = client.GetAsync(url).Result;
+            IEnumerable<StudentDto> OtherStudents = response.Content.ReadAsAsync<IEnumerable<StudentDto>>().Result;
+            ViewModel.OtherStudents = OtherStudents;
+
+            url = "Studentdata/listLanguagesforTutor/" + id;
+            response = client.GetAsync(url).Result;
+            IEnumerable<LanguageDto> Languages = response.Content.ReadAsAsync<IEnumerable<LanguageDto>>().Result;
+            ViewModel.Language = Languages;
+
+            url = "Studentdata/ListOtherLanguages/" + id;
+            response = client.GetAsync(url).Result;
+            IEnumerable<LanguageDto> OtherLanguages = response.Content.ReadAsAsync<IEnumerable<LanguageDto>>().Result;
+            ViewModel.OtherLanguages = OtherLanguages;
+
+            return View(ViewModel);
+        }
 
         //POST: Tutor/Associate/{Tutorid}
         [HttpPost]
@@ -65,6 +97,17 @@ namespace Tutor_Finder.Controllers
             HttpResponseMessage response = client.PostAsync(url, content).Result;
 
             return RedirectToAction("Details/" + id);
+        }
+        //POST: Tutor/AssociateLanguage/{Tutorid}
+        [HttpPost]
+        public ActionResult AssociateLanguage(int id, int LanguageID)
+        {
+            string url = "Tutor/AssociateTutorWithLanguage/" + id + "/" + LanguageID;
+            HttpContent content = new StringContent("");
+            content.Headers.ContentType.MediaType = "application/json";
+            HttpResponseMessage response = client.PostAsync(url, content).Result;
+
+            return RedirectToAction("DetailsLanguage/" + id);
         }
 
         //POST: Tutor/UnAssociate/{Tutorid}

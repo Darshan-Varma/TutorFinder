@@ -52,6 +52,25 @@ namespace Tutor_Finder.Controllers
 
             return StudentDtos;
         }
+        // GET: api/StudentData/ListLanguagesForTutor/2
+        [System.Web.Http.HttpGet]
+        public IEnumerable<LanguageDto> ListLanguagesForTutor(int id)
+        {
+            List<Language> Language = db.Languages.Where(
+                    k => k.Tutors.Any(
+                        a => a.TutorID == id)
+                    ).ToList();
+            List<LanguageDto> LanguageDtos = new List<LanguageDto>();
+
+            Language.ForEach(a => LanguageDtos.Add(new LanguageDto()
+            {
+                LanguageID = a.LanguageID,
+                LanguageName = a.LanguageName,
+                LanguageDescription = a.LanguageDescription
+            }));
+
+            return LanguageDtos;
+        }
 
         // GET: api/StudentData/ListOtherStudents/2
         [System.Web.Http.HttpGet]
@@ -71,6 +90,26 @@ namespace Tutor_Finder.Controllers
             }));
 
             return StudentDtos;
+        }
+
+        // GET: api/StudentData/ListOtherLanguages/2
+        [System.Web.Http.HttpGet]
+        public IEnumerable<LanguageDto> ListOtherLanguages(int id)
+        {
+            List<Language> Language = db.Languages.Where(
+                    k => !k.Tutors.Any(
+                        a => a.TutorID == id)
+                    ).ToList();
+            List<LanguageDto> LanguageDtos = new List<LanguageDto>();
+
+            Language.ForEach(a => LanguageDtos.Add(new LanguageDto()
+            {
+                LanguageID = a.LanguageID,
+                LanguageName = a.LanguageName,
+                LanguageDescription = a.LanguageDescription
+            }));
+
+            return LanguageDtos;
         }
 
         // GET: api/StudentData/FindStudent/5

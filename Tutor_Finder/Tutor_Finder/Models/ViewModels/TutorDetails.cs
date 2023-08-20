@@ -10,5 +10,7 @@ namespace Tutor_Finder.Models.ViewModels
         public TutorDTO Tutor { get; set; }
         public IEnumerable<StudentDto> Student { get; set; }
         public IEnumerable<StudentDto> OtherStudents { get; set; }
+        public IEnumerable<LanguageDto> Language { get; set; }
+        public IEnumerable<LanguageDto> OtherLanguages { get; set; }
     }
 }

@@ -1,0 +1,48 @@
+﻿@model Tutor_Finder.Models.ViewModels.TutorDetails
+@{
+    ViewBag.Title = "List";
+}
+<nav>
+    <ul>
+        <a href="/Tutor/List">Go back to list</a>
+        <li><a href="/Tutor/Edit/@Model.Tutor.TutorID">Update</a></li>
+        <li><a href="/Tutor/AssociateLanguage/@Model.Tutor.TutorID">Associate Languages for Tutor</a></li>
+        <li><a style="color:#ab2020;" href="/Tutor/DeleteConfirm/@Model.Tutor.TutorID">Delete</a></li>
+    </ul>
+</nav>
+
+<h2>@Model.Tutor.TutorFirstName</h2>
+
+<div>Tutor First Name: @Model.Tutor.TutorFirstName</div>
+
+
+<div>
+    <h4>Students for @Model.Tutor.TutorFirstName:</h4>
+    @foreach (var Student in Model.Student)
+    {
+
+        <a href="/Student/Details/@Student.StudentID">@Student.StudentFirstName, @Student.StudentLastName</a> <br />
+    }
+</div>
+<div>
+    <h4>Languages for @Model.Tutor.TutorFirstName:</h4>
+    @foreach (var Language in Model.Language)
+    {
+
+        <a href="/Language/Details/@Language.LanguageID">@Language.LanguageName, @Language.LanguageDescription</a> <a style="color:#ab2020;" href="/Tutor/UnassociateLanguage/@Model.Tutor.TutorID?LanguageID=@Language.LanguageID">[x]</a><br />
+    }
+</div>
+<div>
+
+    <form method="POST" action="/Tutor/AssociateLanguage/@Model.Tutor.TutorID">
+        <select name="LanguageID">
+            <option value="">Select Language</option>
+            @foreach (var Language in Model.OtherLanguages)
+            {
+                <option value="@Language.LanguageID">@Language.LanguageName, @Language.LanguageDescription</option>
+            }
+
+        </select>
+        <input type="submit" value="Add Language" />
+    </form>
+</div>

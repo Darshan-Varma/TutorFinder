@@ -38,7 +38,9 @@ namespace Tutor_Finder.Controllers
         [HttpGet]
         public IEnumerable<TutorDTO> ListTutorsForLanguages(int id)
         {
-            List<Tutor> Tutors = db.Tutors.Where(a => a.TutorID == id).ToList();
+            List<Tutor> Tutors = db.Tutors.Where(a => a.Languages.Any(
+                        k => k.LanguageID == id
+                )).ToList();
             List<TutorDTO> TutorDTOs = new List<TutorDTO>();
 
             Tutors.ForEach(a => TutorDTOs.Add(new TutorDTO()
@@ -86,6 +88,25 @@ namespace Tutor_Finder.Controllers
 
 
             SelectedTutor.Students.Add(Student);
+            db.SaveChanges();
+
+            return Ok();
+        }
+        [HttpPost]
+        [Route("api/Tutor/AssociateTutorWithLanguage/{Tutorid}/{Languageid}")]
+        public IHttpActionResult AssociateTutorWithLanguage(int Tutorid, int Languageid)
+        {
+
+            Tutor SelectedTutor = db.Tutors.Include(a => a.Languages).Where(a => a.TutorID == Tutorid).FirstOrDefault();
+            Language Language = db.Languages.Find(Languageid);
+
+            if (SelectedTutor == null || Language == null)
+            {
+                return NotFound();
+            }
+
+
+            SelectedTutor.Languages.Add(Language);
             db.SaveChanges();
 
             return Ok();

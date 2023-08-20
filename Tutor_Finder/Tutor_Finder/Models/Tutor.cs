@@ -23,5 +23,6 @@ namespace Tutor_Finder.Models
         public int TutorID { get; set; }
         public string TutorFirstName { get; set; }
         public string TutorLastName { get; set; }
+        public string LanguageName { get; set; }
     }
 }   

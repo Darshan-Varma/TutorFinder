@@ -1,7 +1,15 @@
-﻿
+﻿@model IEnumerable<Tutor_Finder.Models.LanguageDto>
 @{
     ViewBag.Title = "List";
 }
 
 <h2>List</h2>
+<div><a href="/Language/New">New Language</a></div>
 
+@foreach (var Language in Model)
+{
+    <h2><a href="/Language/Details/@Language.LanguageID">@Language.LanguageName</a></h2>
+    <div>Language Description: @Language.LanguageDescription</div>
+
+
+}

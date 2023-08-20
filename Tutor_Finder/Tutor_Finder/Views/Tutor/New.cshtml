@@ -1,7 +1,31 @@
-﻿
+﻿@model IEnumerable<Tutor_Finder.Models.LanguageDto>
 @{
-    ViewBag.Title = "New";
+    ViewBag.Title = "Create";
 }
 
-<h2>New</h2>
+<h2>Create Tutor</h2>
 
+<a href="/Tutor/List">Go back to list</a>
+
+<form action="/Tutor/Create" method="POST">
+    <div>
+        <label>Tutor First Name:</label> <input type="text" name="TutorFirstName" />
+    </div>
+    <div>
+        <label>Tutor Last Name:</label> <input type="text" name="TutorLastName" />
+    </div>
+    <div>
+        <label>Languages:</label>
+        <select name="LanguageID">
+            @foreach (var Languages in Model)
+            {
+                <option value="@Languages.LanguageID">@Languages.LanguageName</option>
+
+            }
+        </select>
+    </div>
+    <div>
+        <input type="submit" value="Add Tutor" />
+
+    </div>
+</form>

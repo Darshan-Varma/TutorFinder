@@ -1,7 +1,40 @@
-﻿
+﻿@model Tutor_Finder.Models.ViewModels.TutorDetails
 @{
-    ViewBag.Title = "Details";
+    ViewBag.Title = "List";
 }
+<nav>
+    <ul>
+        <a href="/Tutor/List">Go back to list</a>
+        <li><a href="/Tutor/Edit/@Model.Tutor.TutorId">Update</a></li>
+        <li><a style="color:#ab2020;" href="/Tutor/DeleteConfirm/@Model.Tutor.TutorId">Delete</a></li>
+    </ul>
+</nav>
 
-<h2>Details</h2>
+<h2>@Model.Tutor.TutorName</h2>
 
+<div>Tutor Description: @Model.Tutor.TutorDescription</div>
+
+<div>Language Name: @Model.Tutor.LanguageName</div>
+
+<div>
+    <h4>Students for @Model.Tutor.TutorName:</h4>
+    @foreach (var Student in Model.Student)
+    {
+
+        <a href="/Student/Details/@Student.StudentId">@Student.StudentName, @Student.StudentDescription</a> <a style="color:#ab2020;" href="/Tutor/Unassociate/@Model.Tutor.TutorId?StudentId=@Student.StudentId">[x]</a><br />
+    }
+</div>
+<div>
+
+    <form method="POST" action="/Tutor/Associate/@Model.Tutor.TutorId">
+        <select name="StudentId">
+            <option value="">Select Student</option>
+            @foreach (var Student in Model.OtherStudents)
+            {
+                <option value="@Student.StudentId">@Student.StudentName, @Student.StudentDescription</option>
+            }
+
+        </select>
+        <input type="submit" value="Add Student" />
+    </form>
+</div>

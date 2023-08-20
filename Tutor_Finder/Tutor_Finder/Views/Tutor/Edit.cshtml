@@ -1,7 +1,46 @@
-﻿
+﻿@model Tutor_Finder.Models.ViewModels.UpdateTutor
+
 @{
     ViewBag.Title = "Edit";
 }
 
-<h2>Edit</h2>
+<h2>Update Tutor</h2>
+<nav>
+    <ul>
+        <li><a href="/Tutor/List">Go back to list</a></li>
 
+        <li><a style="color:#ab2020;" href="/Tutor/DeleteConfirm/@Model.Tutor.TutorID">Delete</a></li>
+    </ul>
+</nav>
+<form action="/Tutor/Update/@Model.Tutor.TutorID" method="POST" enctype="multipart/form-data">
+    <div class="row">
+        <div class="col-md-6 col-sm-12">
+            <div style="display:none;">
+                @* Pass through the Tutor ID *@
+                <input type="text" name="TutorID" value="@Model.Tutor.TutorID" />
+            </div>
+            <div>
+                <label>Name:</label> <input type="text" name="TutorName" value="@Model.Tutor.TutorName" />
+            </div>
+            <div>
+                <label>Description :</label> <input type="text" name="TutorDescription" value="@Model.Tutor.TutorDescription" />
+            </div>
+            <div>
+                <label>Language:</label>
+                <select name="LanguageId">
+                    @foreach (var Languages in Model.Language)
+                    {
+                        <option value="@Languages.LanguageID">@Languages.LanguageName</option>
+
+                    }
+                </select>
+            </div>
+        </div>
+
+    </div>
+    <div>
+        <input type="submit" value="Update Tutor" />
+
+    </div>
+
+</form>

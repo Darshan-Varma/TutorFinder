@@ -1,7 +1,18 @@
-﻿
-@{
-    ViewBag.Title = "New";
+﻿@{
+    ViewBag.Title = "Create";
 }
 
-<h2>New</h2>
+<a href="/Student/List">Go back to list</a>
+<h2>Add Student</h2>
+<form action="/Student/Create" method="POST">
+    <div>
+        <label>Student Name:</label> <input type="text" name="StudentName" />
+    </div>
+    <div>
+        <label>Student Description:</label> <input type="text" name="StudentDescription" />
+    </div>
+    <div>
+        <input type="submit" value="Add Student" />
 
+    </div>
+</form>

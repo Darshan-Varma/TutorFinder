@@ -1,7 +1,11 @@
-﻿
+﻿@model IEnumerable<Tutor_Finder.Models.StudentDto>
 @{
-    ViewBag.Title = "List";
+    ViewBag.Title = "List of Students";
 }
 
-<h2>List</h2>
-
+<h2>List of Students</h2>
+<a href="/Student/New">New Student</a>
+@foreach (var Student in Model)
+{
+    <h3><a href="/Student/Details/@Student.StudentID">@Student.StudentFirstName, @Student.StudentLastName</a></h3>
+}

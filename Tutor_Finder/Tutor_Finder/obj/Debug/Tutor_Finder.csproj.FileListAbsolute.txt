@@ -116,3 +116,6 @@ C:\Users\Darshan\Desktop\Web development\Summer 2023\TutorFinder\Tutor_Finder\Tu
 C:\Users\Darshan\Desktop\Web development\Summer 2023\TutorFinder\Tutor_Finder\Tutor_Finder\obj\Debug\Tutor_Finder.dll
 C:\Users\Darshan\Desktop\Web development\Summer 2023\TutorFinder\Tutor_Finder\Tutor_Finder\obj\Debug\Tutor_Finder.pdb
 C:\Users\Darshan\Desktop\Web development\Summer 2023\TutorFinder\Tutor_Finder\Tutor_Finder\obj\Debug\Tutor_Finder.Migrations.tutors1.resources
+C:\Users\Darshan\Desktop\Web development\Summer 2023\TutorFinder\Tutor_Finder\Tutor_Finder\obj\Debug\Tutor_Finder.Migrations.languages.resources
+C:\Users\Darshan\Desktop\Web development\Summer 2023\TutorFinder\Tutor_Finder\Tutor_Finder\obj\Debug\Tutor_Finder.Migrations.languagestutors.resources
+C:\Users\Darshan\Desktop\Web development\Summer 2023\TutorFinder\Tutor_Finder\Tutor_Finder\obj\Debug\Tutor_Finder.Migrations.studentstutors.resources

@@ -24,7 +24,9 @@ namespace Tutor_Finder.Models
             : base("DefaultConnection", throwIfV1Schema: false)
         {
         }
-        DbSet<Tutor>Tutors { get; set; }
+        public DbSet<Tutor>Tutors { get; set; }
+        public DbSet<Language>Languages { get; set; }
+        public DbSet<Student> Students { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

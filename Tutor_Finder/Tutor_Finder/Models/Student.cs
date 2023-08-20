@@ -17,4 +17,11 @@ namespace Tutor_Finder.Models
         public ICollection<Tutor> Tutors { get; set; }
 
     }
+
+    public class StudentDto
+    {
+        public int StudentID { get; set; }
+        public string StudentFirstName { get; set; }
+        public string StudentLastName { get; set; }
+    }
 }

@@ -16,40 +16,90 @@ namespace Tutor_Finder.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/StudentData
-        public IQueryable<Student> GetStudents()
+        // GET: api/StudentData/ListStudents
+        [System.Web.Http.HttpGet]
+        public IEnumerable<StudentDto> ListStudents()
         {
-            return db.Students;
+            List<Student> Student = db.Students.ToList();
+            List<StudentDto> StudentDtos = new List<StudentDto>();
+
+            Student.ForEach(a => StudentDtos.Add(new StudentDto()
+            {
+                StudentID = a.StudentID
+            }));
+
+            return StudentDtos;
         }
 
-        // GET: api/StudentData/5
-        [ResponseType(typeof(Student))]
-        public IHttpActionResult GetStudent(int id)
+        // GET: api/StudentData/ListStudentsForTutor/2
+        [System.Web.Http.HttpGet]
+        public IEnumerable<StudentDto> ListStudentsForTutor(int id)
         {
-            Student student = db.Students.Find(id);
-            if (student == null)
+            List<Student> Student = db.Students.Where(
+                    k => k.Tutors.Any(
+                        a => a.TutorID == id)
+                    ).ToList();
+            List<StudentDto> StudentDtos = new List<StudentDto>();
+
+            Student.ForEach(a => StudentDtos.Add(new StudentDto()
+            {
+                StudentID = a.StudentID
+            }));
+
+            return StudentDtos;
+        }
+
+        // GET: api/StudentData/ListOtherStudents/2
+        [System.Web.Http.HttpGet]
+        public IEnumerable<StudentDto> ListOtherStudents(int id)
+        {
+            List<Student> Student = db.Students.Where(
+                    k => !k.Tutors.Any(
+                        a => a.TutorID == id)
+                    ).ToList();
+            List<StudentDto> StudentDtos = new List<StudentDto>();
+
+            Student.ForEach(a => StudentDtos.Add(new StudentDto()
+            {
+                StudentID = a.StudentID
+            }));
+
+            return StudentDtos;
+        }
+
+        // GET: api/StudentData/FindStudent/5
+        [ResponseType(typeof(Student))]
+        [System.Web.Http.HttpGet]
+        public IHttpActionResult FindStudent(int id)
+        {
+            Student Student = db.Students.Find(id);
+            StudentDto StudentDtos = new StudentDto()
+            {
+                StudentID = Student.StudentID
+            };
+            if (Student == null)
             {
                 return NotFound();
             }
 
-            return Ok(student);
+            return Ok(StudentDtos);
         }
 
-        // PUT: api/StudentData/5
+        // PUT: api/StudentData/UpdateStudent/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutStudent(int id, Student student)
+        public IHttpActionResult UpdateStudent(int id, Student Student)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != student.StudentID)
+            if (id != Student.StudentID)
             {
                 return BadRequest();
             }
 
-            db.Entry(student).State = EntityState.Modified;
+            db.Entry(Student).State = EntityState.Modified;
 
             try
             {
@@ -70,35 +120,37 @@ namespace Tutor_Finder.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/StudentData
+        // POST: api/StudentData/AddStudent
         [ResponseType(typeof(Student))]
-        public IHttpActionResult PostStudent(Student student)
+        [System.Web.Http.HttpPost]
+        public IHttpActionResult AddStudent(Student Student)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Students.Add(student);
+            db.Students.Add(Student);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = student.StudentID }, student);
+            return CreatedAtRoute("DefaultApi", new { id = Student.StudentID }, Student);
         }
 
-        // DELETE: api/StudentData/5
+        // DELETE: api/StudentData/DeleteStudent/5
         [ResponseType(typeof(Student))]
+        [System.Web.Http.HttpPost]
         public IHttpActionResult DeleteStudent(int id)
         {
-            Student student = db.Students.Find(id);
-            if (student == null)
+            Student Student = db.Students.Find(id);
+            if (Student == null)
             {
                 return NotFound();
             }
 
-            db.Students.Remove(student);
+            db.Students.Remove(Student);
             db.SaveChanges();
 
-            return Ok(student);
+            return Ok(Student);
         }
 
         protected override void Dispose(bool disposing)

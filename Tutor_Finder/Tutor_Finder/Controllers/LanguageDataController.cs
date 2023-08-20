@@ -16,40 +16,58 @@ namespace Tutor_Finder.Controllers
     {
         private ApplicationDbContext db = new ApplicationDbContext();
 
-        // GET: api/Languages
-        public IQueryable<Language> GetLanguages()
+        // GET: api/LanguageData/ListLanguages
+        [HttpGet]
+        public IEnumerable<LanguageDto> ListLanguages()
         {
-            return db.Languages;
+            List<Language> Language = db.Languages.ToList();
+            List<LanguageDto> LanguageDtos = new List<LanguageDto>();
+
+            Language.ForEach(a => LanguageDtos.Add(new LanguageDto()
+            {
+                LanguageID = a.LanguageID,
+                LanguageName = a.LanguageName,
+                LanguageDescription = a.LanguageDescription
+            }));
+
+            return LanguageDtos;
         }
 
-        // GET: api/Languages/5
+        // GET: api/LanguageData/FindLanguage/5
         [ResponseType(typeof(Language))]
-        public IHttpActionResult GetLanguage(int id)
+        [HttpGet]
+        public IHttpActionResult FindLanguage(int id)
         {
-            Language language = db.Languages.Find(id);
-            if (language == null)
+            Language Language = db.Languages.Find(id);
+            LanguageDto LanguageDtos = new LanguageDto()
+            {
+                LanguageID = Language.LanguageID,
+                LanguageName = Language.LanguageName,
+                LanguageDescription = Language.LanguageDescription
+            };
+            if (Language == null)
             {
                 return NotFound();
             }
 
-            return Ok(language);
+            return Ok(LanguageDtos);
         }
 
-        // PUT: api/Languages/5
+        // PUT: api/LanguageData/UpdateLanguage/5
         [ResponseType(typeof(void))]
-        public IHttpActionResult PutLanguage(int id, Language language)
+        public IHttpActionResult UpdateLanguage(int id, Language Language)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            if (id != language.LanguageID)
+            if (id != Language.LanguageID)
             {
                 return BadRequest();
             }
 
-            db.Entry(language).State = EntityState.Modified;
+            db.Entry(Language).State = EntityState.Modified;
 
             try
             {
@@ -70,35 +88,37 @@ namespace Tutor_Finder.Controllers
             return StatusCode(HttpStatusCode.NoContent);
         }
 
-        // POST: api/Languages
+        // POST: api/LanguageData/AddLanguage
         [ResponseType(typeof(Language))]
-        public IHttpActionResult PostLanguage(Language language)
+        [HttpPost]
+        public IHttpActionResult AddLanguage(Language Language)
         {
             if (!ModelState.IsValid)
             {
                 return BadRequest(ModelState);
             }
 
-            db.Languages.Add(language);
+            db.Languages.Add(Language);
             db.SaveChanges();
 
-            return CreatedAtRoute("DefaultApi", new { id = language.LanguageID }, language);
+            return CreatedAtRoute("DefaultApi", new { id = Language.LanguageID }, Language);
         }
 
-        // DELETE: api/Languages/5
+        // DELETE: api/LanguageData/DeleteLanguage/5
         [ResponseType(typeof(Language))]
+        [HttpPost]
         public IHttpActionResult DeleteLanguage(int id)
         {
-            Language language = db.Languages.Find(id);
-            if (language == null)
+            Language Language = db.Languages.Find(id);
+            if (Language == null)
             {
                 return NotFound();
             }
 
-            db.Languages.Remove(language);
+            db.Languages.Remove(Language);
             db.SaveChanges();
 
-            return Ok(language);
+            return Ok(Language);
         }
 
         protected override void Dispose(bool disposing)

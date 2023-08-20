@@ -122,7 +122,9 @@ namespace Tutor_Finder.Controllers
             {
                 StudentID = Student.StudentID,
                 StudentFirstName = Student.StudentFirstName,
-                StudentLastName = Student.StudentLastName
+                StudentLastName = Student.StudentLastName,
+                StudentNumber = Student.StudentNumber,
+                StudentSemester = Student.StudentSemester
 
             };
             if (Student == null)

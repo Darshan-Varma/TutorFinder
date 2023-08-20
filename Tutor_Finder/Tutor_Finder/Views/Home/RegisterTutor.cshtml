@@ -1,0 +1,32 @@
+﻿
+@{
+    ViewBag.Title = "RegisterTutor";
+}
+
+<h2>Register Tutor</h2>
+
+<form action="/Tutor/Create" method="POST">
+    <div>
+        <label>Tutor First Name:</label> <input type="text" name="TutorFirstName" />
+    </div>
+    <div>
+        <label>Tutor Last Name:</label> <input type="text" name="TutorLastName" />
+    </div>
+    <div>
+        <label>Tutor Rating:</label> <input type="number" name="TutorRating" />
+    </div>
+    <div>
+        <label>Tutor Description:</label> <input type="text" name="TutorDescription" />
+    </div>
+    <div>
+        <input type="submit" value="Add Tutor" />
+
+    </div>
+    <div>
+        <p>Already a User?</p>
+    </div>
+    <div>
+        <input type="submit" value="Login" />
+
+    </div>
+</form>

@@ -26,5 +26,15 @@ namespace Tutor_Finder.Controllers
 
             return View();
         }
+        public ActionResult RegisterTutor()
+        {
+
+            return View();
+        }
+        public ActionResult RegisterStudent()
+        {
+
+            return View();
+        }
     }
 }

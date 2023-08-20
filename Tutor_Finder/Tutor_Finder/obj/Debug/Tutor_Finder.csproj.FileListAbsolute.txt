@@ -108,7 +108,11 @@ C:\Users\Darshan\Desktop\Web development\Summer 2023\TutorFinder\Tutor_Finder\Tu
 C:\Users\Darshan\Desktop\Web development\Summer 2023\TutorFinder\Tutor_Finder\Tutor_Finder\bin\Microsoft.Owin.Security.OAuth.xml
 C:\Users\Darshan\Desktop\Web development\Summer 2023\TutorFinder\Tutor_Finder\Tutor_Finder\bin\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.xml
 C:\Users\Darshan\Desktop\Web development\Summer 2023\TutorFinder\Tutor_Finder\Tutor_Finder\obj\Debug\Tutor_Finder.csproj.AssemblyReference.cache
+C:\Users\Darshan\Desktop\Web development\Summer 2023\TutorFinder\Tutor_Finder\Tutor_Finder\obj\Debug\Tutor_Finder.Migrations.InitialCreate.resources
+C:\Users\Darshan\Desktop\Web development\Summer 2023\TutorFinder\Tutor_Finder\Tutor_Finder\obj\Debug\Tutor_Finder.Migrations.tutors.resources
+C:\Users\Darshan\Desktop\Web development\Summer 2023\TutorFinder\Tutor_Finder\Tutor_Finder\obj\Debug\Tutor_Finder.csproj.GenerateResource.cache
 C:\Users\Darshan\Desktop\Web development\Summer 2023\TutorFinder\Tutor_Finder\Tutor_Finder\obj\Debug\Tutor_Finder.csproj.CoreCompileInputs.cache
 C:\Users\Darshan\Desktop\Web development\Summer 2023\TutorFinder\Tutor_Finder\Tutor_Finder\obj\Debug\Tutor_Finder.csproj.CopyComplete
 C:\Users\Darshan\Desktop\Web development\Summer 2023\TutorFinder\Tutor_Finder\Tutor_Finder\obj\Debug\Tutor_Finder.dll
 C:\Users\Darshan\Desktop\Web development\Summer 2023\TutorFinder\Tutor_Finder\Tutor_Finder\obj\Debug\Tutor_Finder.pdb
+C:\Users\Darshan\Desktop\Web development\Summer 2023\TutorFinder\Tutor_Finder\Tutor_Finder\obj\Debug\Tutor_Finder.Migrations.tutors1.resources

@@ -13,4 +13,4 @@ namespace Tutor_Finder.Models
         public int TutorRating { get; set; }
         public string TutorDescription { get; set; }
     }
-}
+}   

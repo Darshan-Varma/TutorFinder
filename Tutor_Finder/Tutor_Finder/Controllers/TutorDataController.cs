@@ -34,17 +34,19 @@ namespace Tutor_Finder.Controllers
             return TutorDTOs;
         }
 
-        // GET: api/TutorData/ListTutorsForOwners/3
+        // GET: api/TutorData/ListTutorsForLanguagess/3
         [HttpGet]
-        public IEnumerable<TutorDTO> ListTutorsForOwners(int id)
+        public IEnumerable<TutorDTO> ListTutorsForLanguages(int id)
         {
             List<Tutor> Tutors = db.Tutors.Where(a => a.TutorID == id).ToList();
             List<TutorDTO> TutorDTOs = new List<TutorDTO>();
 
             Tutors.ForEach(a => TutorDTOs.Add(new TutorDTO()
             {
-                TutorID = a.TutorID
-                
+                TutorID = a.TutorID,
+                TutorFirstName = a.TutorFirstName,
+                TutorLastName = a.TutorLastName
+
             }));
 
             return TutorDTOs;
@@ -61,7 +63,9 @@ namespace Tutor_Finder.Controllers
 
             Tutors.ForEach(a => TutorDTOs.Add(new TutorDTO()
             {
-                TutorID = a.TutorID
+                TutorID = a.TutorID,
+                TutorFirstName = a.TutorFirstName,
+                TutorLastName = a.TutorLastName
             }));
 
             return TutorDTOs;

@@ -25,7 +25,9 @@ namespace Tutor_Finder.Controllers
 
             Student.ForEach(a => StudentDtos.Add(new StudentDto()
             {
-                StudentID = a.StudentID
+                StudentID = a.StudentID,
+                StudentFirstName = a.StudentFirstName,
+                StudentLastName = a.StudentLastName
             }));
 
             return StudentDtos;
@@ -43,7 +45,9 @@ namespace Tutor_Finder.Controllers
 
             Student.ForEach(a => StudentDtos.Add(new StudentDto()
             {
-                StudentID = a.StudentID
+                StudentID = a.StudentID,
+                StudentFirstName = a.StudentFirstName,
+                StudentLastName = a.StudentLastName
             }));
 
             return StudentDtos;
@@ -61,7 +65,9 @@ namespace Tutor_Finder.Controllers
 
             Student.ForEach(a => StudentDtos.Add(new StudentDto()
             {
-                StudentID = a.StudentID
+                StudentID = a.StudentID,
+                StudentFirstName = a.StudentFirstName,
+                StudentLastName = a.StudentLastName
             }));
 
             return StudentDtos;
@@ -75,7 +81,10 @@ namespace Tutor_Finder.Controllers
             Student Student = db.Students.Find(id);
             StudentDto StudentDtos = new StudentDto()
             {
-                StudentID = Student.StudentID
+                StudentID = Student.StudentID,
+                StudentFirstName = Student.StudentFirstName,
+                StudentLastName = Student.StudentLastName
+
             };
             if (Student == null)
             {

@@ -115,24 +115,31 @@ namespace Tutor_Finder.Controllers
         //GET: Tutor/Details/5
         public ActionResult Details(int id)
         {
-            TutorDetails ViewModel = new TutorDetails();
-            string url = "TutorData/FindTutor/" + id;
-            HttpResponseMessage response = client.GetAsync(url).Result;
+            if (Session["StudentID"] != null)
+            {
+                TutorDetails ViewModel = new TutorDetails();
+                string url = "TutorData/FindTutor/" + id;
+                HttpResponseMessage response = client.GetAsync(url).Result;
 
-            TutorDTO Tutor = response.Content.ReadAsAsync<TutorDTO>().Result;
-            ViewModel.Tutor = Tutor;
+                TutorDTO Tutor = response.Content.ReadAsAsync<TutorDTO>().Result;
+                ViewModel.Tutor = Tutor;
 
-            url = "Studentdata/listStudentsforTutor/" + id;
-            response = client.GetAsync(url).Result;
-            IEnumerable<StudentDto> Students = response.Content.ReadAsAsync<IEnumerable<StudentDto>>().Result;
-            ViewModel.Student = Students;
+                url = "Studentdata/listStudentsforTutor/" + id;
+                response = client.GetAsync(url).Result;
+                IEnumerable<StudentDto> Students = response.Content.ReadAsAsync<IEnumerable<StudentDto>>().Result;
+                ViewModel.Student = Students;
 
-            url = "Studentdata/ListOtherStudents/" + id;
-            response = client.GetAsync(url).Result;
-            IEnumerable<StudentDto> OtherStudents = response.Content.ReadAsAsync<IEnumerable<StudentDto>>().Result;
-            ViewModel.OtherStudents = OtherStudents;
+                url = "Studentdata/ListOtherStudents/" + id;
+                response = client.GetAsync(url).Result;
+                IEnumerable<StudentDto> OtherStudents = response.Content.ReadAsAsync<IEnumerable<StudentDto>>().Result;
+                ViewModel.OtherStudents = OtherStudents;
 
-            return View(ViewModel);
+                return View(ViewModel);
+            }
+            else
+            {
+                return RedirectToAction("LoginFailed");
+            }
         }
         // POST: Tutor/CheckLogin
         [HttpPost]

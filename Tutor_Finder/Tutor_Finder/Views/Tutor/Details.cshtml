@@ -2,7 +2,7 @@
 @{
     ViewBag.Title = "List";
 }
-@if (Session["isAdmin"].ToString() == "true")
+@if (Session["isAdmin"]!=null && Session["isAdmin"].ToString() == "true")
 {
     <nav>
         <ul>
@@ -10,6 +10,15 @@
             <li><a href="/Tutor/Edit/@Model.Tutor.TutorID">Update</a></li>
             <li><a href="/Tutor/DetailsLanguage/@Model.Tutor.TutorID">Associate Languages for Tutor</a></li>
             <li><a style="color:#ab2020;" href="/Tutor/DeleteConfirm/@Model.Tutor.TutorID">Delete</a></li>
+        </ul>
+    </nav>
+}
+else
+{
+    <nav>
+        <ul>
+            <li><a href="/Language/List">Home</a></li>
+            <li><a href="/Student/LoginStudent">Logout</a></li>
         </ul>
     </nav>
 }

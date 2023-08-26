@@ -4,7 +4,7 @@
 @{
     ViewBag.Title = "View";
 }
-<h2>@Model.Student.StudentFirstName, @Model.Student.StudentLastName</h2>
+
 @if (Session["isAdmin"].ToString() == "true")
 {
     <nav>
@@ -15,23 +15,34 @@
         </ul>
     </nav>
 }
-    <div class="row">
-        <div>
-            <div>First Name: @Model.Student.StudentFirstName</div>
-            <div>Last Name: @Model.Student.StudentLastName</div>
-            <div>Semester: @Model.Student.StudentSemester</div>
-            <div>Student Number: @Model.Student.StudentNumber</div>
-            <div>Email ID: @Model.Student.StudentEmailID</div>
-            <div>Contact Number: @Model.Student.StudentNumber</div>
-        </div>
-
-
-        <div>
-            <h4>Associated Tutors:</h4>
-            @foreach (var tutor in Model.AssociatedTutors)
-            {
-                <a href="/tutor/Details/@tutor.TutorID">@tutor.TutorFirstName</a><br />
-
-            }
-        </div>
+else
+{
+    <nav>
+        <ul>
+            <li><a href="/Language/List">Home</a></li>
+            <li><a href="/Student/LoginStudent">Logout</a></li>
+        </ul>
+    </nav>
+}
+<br />
+<h2>Hey, @Model.Student.StudentFirstName!</h2>
+<div class="row">
+    <div>
+        <div>First Name: @Model.Student.StudentFirstName</div>
+        <div>Last Name: @Model.Student.StudentLastName</div>
+        <div>Semester: @Model.Student.StudentSemester</div>
+        <div>Student Number: @Model.Student.StudentNumber</div>
+        <div>Email ID: @Model.Student.StudentEmailID</div>
+        <div>Contact Number: @Model.Student.StudentNumber</div>
     </div>
+
+
+    <div>
+        <h4>Associated Tutors:</h4>
+        @foreach (var tutor in Model.AssociatedTutors)
+        {
+            <a href="/tutor/Details/@tutor.TutorID">@tutor.TutorFirstName @tutor.TutorLastName</a><br />
+
+        }
+    </div>
+</div>

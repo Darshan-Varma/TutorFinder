@@ -24,8 +24,7 @@ namespace Tutor_Finder.Controllers
         // GET: Language/List
         public ActionResult List(Student student)
         {
-            bool isLogin = CheckLogin(student);
-            if (isLogin)
+            if (Session["StudentID"] != null)
             {
                 string url = "LanguageData/ListLanguages";
                 HttpResponseMessage response = client.GetAsync(url).Result;
@@ -35,10 +34,29 @@ namespace Tutor_Finder.Controllers
 
                 return View(Language);
             }
+            else if(student.StudentEmailID != null)
+            {
+                bool isLogin = CheckLogin(student);
+                if (isLogin)
+                {
+                    string url = "LanguageData/ListLanguages";
+                    HttpResponseMessage response = client.GetAsync(url).Result;
+
+                    IEnumerable<LanguageDto> Language = response.Content.ReadAsAsync<IEnumerable<LanguageDto>>().Result;
+
+
+                    return View(Language);
+                }
+                else
+                {
+                    return RedirectToAction("LoginFailed");
+                }
+            }
             else
             {
                 return RedirectToAction("LoginFailed");
             }
+            
         }
         // GET: Language/LoginFailed
         public ActionResult LoginFailed()
@@ -48,20 +66,27 @@ namespace Tutor_Finder.Controllers
         // GET: Language/Details/5
         public ActionResult Details(int id)
         {
-            LanguageDetails ViewModel = new LanguageDetails();
+            if (Session["StudentID"] != null)
+            {
+                LanguageDetails ViewModel = new LanguageDetails();
 
-            string url = "LanguageData/FindLanguage/" + id;
-            HttpResponseMessage response = client.GetAsync(url).Result;
+                string url = "LanguageData/FindLanguage/" + id;
+                HttpResponseMessage response = client.GetAsync(url).Result;
 
-            LanguageDto Language = response.Content.ReadAsAsync<LanguageDto>().Result;
-            ViewModel.Language = Language;
+                LanguageDto Language = response.Content.ReadAsAsync<LanguageDto>().Result;
+                ViewModel.Language = Language;
 
-            url = "Tutordata/ListTutorsForLanguages/" + id;
-            response = client.GetAsync(url).Result;
-            IEnumerable<TutorDTO> RelatedTutors = response.Content.ReadAsAsync<IEnumerable<TutorDTO>>().Result;
-            ViewModel.RelatedTutors = RelatedTutors;
+                url = "Tutordata/ListTutorsForLanguages/" + id;
+                response = client.GetAsync(url).Result;
+                IEnumerable<TutorDTO> RelatedTutors = response.Content.ReadAsAsync<IEnumerable<TutorDTO>>().Result;
+                ViewModel.RelatedTutors = RelatedTutors;
 
-            return View(ViewModel);
+                return View(ViewModel);
+            }
+            else
+            {
+                return RedirectToAction("LoginFailed");
+            }
         }
 
         // GET: Language/New
@@ -105,11 +130,16 @@ namespace Tutor_Finder.Controllers
             content.Headers.ContentType.MediaType = "application/json";
 
             var response = client.PostAsync(url, content).Result;
-            bool login = response.Content.ReadAsAsync<bool>().Result;
-            if (login)
+            //bool login = response.Content.ReadAsAsync<bool>().Result;
+            IEnumerable<Student> loggedInStudent = response.Content.ReadAsAsync<IEnumerable<Student>>().Result;
+
+            if (loggedInStudent.Count()>0)
             {
-                Session["EmailID"] = student.StudentEmailID;
-                Session["StudentName"] = student.StudentFirstName;
+                Student StudentLoggedIn = loggedInStudent.SingleOrDefault();
+
+                Session["StudentID"] = StudentLoggedIn.StudentID;
+                Session["EmailID"] = StudentLoggedIn.StudentEmailID;
+                Session["StudentName"] = StudentLoggedIn.StudentFirstName;
                 Session["isAdmin"] = "false";
                 return true;
             }

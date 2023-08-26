@@ -197,16 +197,11 @@ namespace Tutor_Finder.Controllers
         // POST: api/StudentData/CheckLogin
         [ResponseType(typeof(Student))]
         [System.Web.Http.HttpPost]
-        public bool CheckLogin(Student student)
+        public IEnumerable<Student> CheckLogin(Student student)
         {
-            var isStudentLoggedIn = db.Students.Where(x => x.StudentEmailID == student.StudentEmailID
+            List<Student> isStudentLoggedIn = db.Students.Where(x => x.StudentEmailID == student.StudentEmailID
                                         && x.StudentPassword == student.StudentPassword).ToList();
-            if (isStudentLoggedIn.Count > 0)
-            {
-                return true;
-            }
-            else
-                return false;
+            return isStudentLoggedIn;
         }
 
         // DELETE: api/StudentData/DeleteStudent/5

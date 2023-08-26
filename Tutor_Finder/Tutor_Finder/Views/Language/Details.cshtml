@@ -6,6 +6,16 @@
     <li><a href="/Language/Edit/@Model.Language.LanguageID">Update</a></li>
     <li><a style="color:#ab2020;" href="/Language/DeleteConfirm/@Model.Language.LanguageID">Delete</a></li>
 }
+else
+{
+    <nav>
+        <ul>
+            <li><a href="/Language/List">Home</a></li>
+            <li><a href="/Student/LoginStudent">Logout</a></li>
+        </ul>
+    </nav>
+    <br />
+}
 
 
 @{
@@ -28,7 +38,7 @@
             @foreach (var tutor in Model.RelatedTutors)
             {
                 <li>
-                    <a href="/Tutor/Details/@tutor.TutorID">@tutor.TutorFirstName</a>
+                    <a href="/Tutor/Details/@tutor.TutorID">@tutor.TutorFirstName @tutor.TutorLastName</a>
                 </li>
             }
 

@@ -34,6 +34,8 @@ namespace Tutor_Finder.Controllers
         // GET: Student/LoginStudent
         public ActionResult LoginStudent()
         {
+            if (Session.Count > 0)
+                Session.RemoveAll();
             return View();
         }
         // GET: Student/LoginFailed
@@ -45,20 +47,27 @@ namespace Tutor_Finder.Controllers
         // GET: Student/Details/5
         public ActionResult Details(int id)
         {
-            StudentDetails ViewModel = new StudentDetails();
+            if (Session["StudentID"] != null)
+            {
+                StudentDetails ViewModel = new StudentDetails();
 
-            string url = "StudentData/FindStudent/" + id;
-            HttpResponseMessage response = client.GetAsync(url).Result;
+                string url = "StudentData/FindStudent/" + id;
+                HttpResponseMessage response = client.GetAsync(url).Result;
 
-            StudentDto Student = response.Content.ReadAsAsync<StudentDto>().Result;
-            ViewModel.Student = Student;
+                StudentDto Student = response.Content.ReadAsAsync<StudentDto>().Result;
+                ViewModel.Student = Student;
 
-            url = "Tutordata/ListTutorsForStudent/" + id;
-            response = client.GetAsync(url).Result;
-            IEnumerable<TutorDTO> AssociatedTutorsOfStudent = response.Content.ReadAsAsync<IEnumerable<TutorDTO>>().Result;
-            ViewModel.AssociatedTutors = AssociatedTutorsOfStudent;
+                url = "Tutordata/ListTutorsForStudent/" + id;
+                response = client.GetAsync(url).Result;
+                IEnumerable<TutorDTO> AssociatedTutorsOfStudent = response.Content.ReadAsAsync<IEnumerable<TutorDTO>>().Result;
+                ViewModel.AssociatedTutors = AssociatedTutorsOfStudent;
 
-            return View(ViewModel);
+                return View(ViewModel);
+            }
+            else
+            {
+                return RedirectToAction("LoginFailed");
+            }
         }
 
         // GET: Student/New

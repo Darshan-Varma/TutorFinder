@@ -4,16 +4,27 @@
 }
 @if (Session["isAdmin"].ToString() == "true")
 {
-    
-<div><a href="/Language/New">New Language</a></div>
+
+    <div><a href="/Language/New">New Language</a></div>
+}
+else
+{
+    <nav>
+        <ul>
+            <li><a href="/Student/Details/@Session["StudentID"]">Profile</a></li>
+            <li><a href="/Student/LoginStudent">Logout</a></li>
+        </ul>
+    </nav>
+    <br />
+    <h2>Hey, @Session["StudentName"].ToString()!</h2>
+    <h4>Choose language you need help with : </h4>
 }
 
-<h2>Choose language you need help with : </h2>
-
+<br />
 @foreach (var Language in Model)
 {
     <h2><a href="/Language/Details/@Language.LanguageID">@Language.LanguageName</a></h2>
     <div>Language Description: @Language.LanguageDescription</div>
-
+    <br />
 
 }

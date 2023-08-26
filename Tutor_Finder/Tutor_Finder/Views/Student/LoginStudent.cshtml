@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "LoginStudent";
+}
+
+<h2>Login As a Student</h2>
+
+<form action="/Language/List" method="POST">
+    <div>
+        <label>Email ID:</label> <input type="text" name="StudentEmailID" />
+    </div>
+    <div>
+        <label>Password:</label> <input type="text" name="StudentPassword" />
+    </div>
+    <div>
+        <input type="submit" value="Login" />
+
+    </div>
+    <div>
+        <p>New User?</p>
+    </div>
+    <div>
+        <a href="/Home/RegisterStudent">Register</a>
+
+    </div>
+</form>
+

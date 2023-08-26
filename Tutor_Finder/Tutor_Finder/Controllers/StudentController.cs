@@ -31,6 +31,16 @@ namespace Tutor_Finder.Controllers
 
             return View(Student);
         }
+        // GET: Student/LoginStudent
+        public ActionResult LoginStudent()
+        {
+            return View();
+        }
+        // GET: Student/LoginFailed
+        public ActionResult LoginFailed()
+        {
+            return View();
+        }
 
         // GET: Student/Details/5
         public ActionResult Details(int id)
@@ -71,7 +81,7 @@ namespace Tutor_Finder.Controllers
             HttpResponseMessage response = client.PostAsync(url, content).Result;
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("List");
+                return RedirectToAction("LoginStudent");
             }
             else
             {

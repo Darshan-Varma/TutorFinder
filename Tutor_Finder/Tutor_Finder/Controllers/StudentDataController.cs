@@ -6,8 +6,11 @@ using System.Data.Entity.Infrastructure;
 using System.Linq;
 using System.Net;
 using System.Net.Http;
+using System.Web;
 using System.Web.Http;
 using System.Web.Http.Description;
+using System.Web.ModelBinding;
+using System.Xml.Linq;
 using Tutor_Finder.Models;
 
 namespace Tutor_Finder.Controllers
@@ -47,7 +50,11 @@ namespace Tutor_Finder.Controllers
             {
                 StudentID = a.StudentID,
                 StudentFirstName = a.StudentFirstName,
-                StudentLastName = a.StudentLastName
+                StudentLastName = a.StudentLastName,
+                StudentNumber = a.StudentNumber,
+                StudentSemester = a.StudentSemester,
+                StudentEmailID = a.StudentEmailID,
+                StudentContactNumber = a.StudentContactNumber
             }));
 
             return StudentDtos;
@@ -91,6 +98,7 @@ namespace Tutor_Finder.Controllers
 
             return StudentDtos;
         }
+        
 
         // GET: api/StudentData/ListOtherLanguages/2
         [System.Web.Http.HttpGet]
@@ -184,6 +192,21 @@ namespace Tutor_Finder.Controllers
             db.SaveChanges();
 
             return CreatedAtRoute("DefaultApi", new { id = Student.StudentID }, Student);
+        }
+
+        // POST: api/StudentData/CheckLogin
+        [ResponseType(typeof(Student))]
+        [System.Web.Http.HttpPost]
+        public bool CheckLogin(Student student)
+        {
+            var isStudentLoggedIn = db.Students.Where(x => x.StudentEmailID == student.StudentEmailID
+                                        && x.StudentPassword == student.StudentPassword).ToList();
+            if (isStudentLoggedIn.Count > 0)
+            {
+                return true;
+            }
+            else
+                return false;
         }
 
         // DELETE: api/StudentData/DeleteStudent/5

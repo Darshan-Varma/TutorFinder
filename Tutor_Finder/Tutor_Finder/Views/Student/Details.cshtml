@@ -5,28 +5,33 @@
     ViewBag.Title = "View";
 }
 <h2>@Model.Student.StudentFirstName, @Model.Student.StudentLastName</h2>
-<nav>
-    <ul>
-        <li><a href="/Student/List">Go back to list</a></li>
-        <li><a href="/Student/Edit/@Model.Student.StudentID">Update</a></li>
-        <li><a style="color:#ab2020;" href="/Student/DeleteConfirm/@Model.Student.StudentID">Delete</a></li>
-    </ul>
-</nav>
-<div class="row">
-    <div>
-        <div>First Name: @Model.Student.StudentFirstName</div>
-        <div>Last Name: @Model.Student.StudentLastName</div>
-        <div>Semester: @Model.Student.StudentSemester</div>
-        <div>Student Number: @Model.Student.StudentNumber</div>
+@if (Session["isAdmin"].ToString() == "true")
+{
+    <nav>
+        <ul>
+            <li><a href="/Student/List">Go back to list</a></li>
+            <li><a href="/Student/Edit/@Model.Student.StudentID">Update</a></li>
+            <li><a style="color:#ab2020;" href="/Student/DeleteConfirm/@Model.Student.StudentID">Delete</a></li>
+        </ul>
+    </nav>
+}
+    <div class="row">
+        <div>
+            <div>First Name: @Model.Student.StudentFirstName</div>
+            <div>Last Name: @Model.Student.StudentLastName</div>
+            <div>Semester: @Model.Student.StudentSemester</div>
+            <div>Student Number: @Model.Student.StudentNumber</div>
+            <div>Email ID: @Model.Student.StudentEmailID</div>
+            <div>Contact Number: @Model.Student.StudentNumber</div>
+        </div>
+
+
+        <div>
+            <h4>Associated Tutors:</h4>
+            @foreach (var tutor in Model.AssociatedTutors)
+            {
+                <a href="/tutor/Details/@tutor.TutorID">@tutor.TutorFirstName</a><br />
+
+            }
+        </div>
     </div>
-
-
-    <div>
-        <h4>Associated Tutors:</h4>
-        @foreach (var tutor in Model.AssociatedTutors)
-        {
-            <a href="/tutor/Details/@tutor.TutorID">@tutor.TutorFirstName</a><br />
-
-        }
-    </div>
-</div>

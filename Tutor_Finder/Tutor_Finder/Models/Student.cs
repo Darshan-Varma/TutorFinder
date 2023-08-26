@@ -14,6 +14,9 @@ namespace Tutor_Finder.Models
         public string StudentLastName { get; set; }
         public string StudentSemester { get; set; }
         public string StudentNumber { get; set; }
+        public string StudentEmailID { get; set; }
+        public string StudentContactNumber { get; set; }
+        public string StudentPassword { get; set; }
         public ICollection<Tutor> Tutors { get; set; }
 
     }
@@ -25,5 +28,8 @@ namespace Tutor_Finder.Models
         public string StudentLastName { get; set; }
         public string StudentSemester { get; set; }
         public string StudentNumber { get; set; }
+        public string StudentEmailID { get; set; }
+        public string StudentContactNumber { get; set; }
+        public bool IsLoggedIn { get; set; }
     }
 }

@@ -3,10 +3,12 @@
 @{
     ViewBag.Title = "Edit";
 }
-<li><a href="/Student/List">Go back to list</a></li>
+@if (Session["isAdmin"].ToString() == "true")
+{
+    <li><a href="/Student/List">Go back to list</a></li>
 <li><a style="color:#ab2020;" href="/Student/DeleteConfirm/@Model.StudentID">Delete</a></li>
 
-
+}
 <h2>Update Student</h2>
 <form action="/Student/Update/@Model.StudentID" method="POST">
     <div style="display:none;">

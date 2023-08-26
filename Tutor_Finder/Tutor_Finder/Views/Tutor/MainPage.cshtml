@@ -1,0 +1,34 @@
+﻿@model Tutor_Finder.Models.ViewModels.TutorDetails
+@{
+    ViewBag.Title = "MainPage";
+}
+@if (Session["isAdmin"].ToString() == "true")
+{
+    <nav>
+        <ul>
+            <a href="/Tutor/List">Go back to list</a>
+            <li><a href="/Tutor/Edit/@Model.Tutor.TutorID">Update</a></li>
+            <li><a href="/Tutor/DetailsLanguage/@Model.Tutor.TutorID">Associate Languages for Tutor</a></li>
+            <li><a style="color:#ab2020;" href="/Tutor/DeleteConfirm/@Model.Tutor.TutorID">Delete</a></li>
+        </ul>
+    </nav>
+}
+else
+{
+    <nav>
+        <ul>
+            <li><a href="/Tutor/DetailsLanguage/@Model.Tutor.TutorID">Associate Courses</a></li>
+            <li><a href="/Tutor/GetStudentsForTutor/@Model.Tutor.TutorID">View Student Profile</a></li>
+            <li><a href="/Tutor/LoginTutor">Logout</a></li>
+        </ul>
+    </nav>
+}
+<br />
+<h2>Hi, @Model.Tutor.TutorFirstName!</h2>
+
+<div>Name: @Model.Tutor.TutorFirstName @Model.Tutor.TutorLastName</div>
+
+<div>Description (Style of teaching): @Model.Tutor.TutorDescription</div>
+<div>Contact Number: @Model.Tutor.ContactNumber</div>
+<div>Email ID: @Model.Tutor.EmailID</div>
+<div>Social Media: @Model.Tutor.SocialMedia</div>

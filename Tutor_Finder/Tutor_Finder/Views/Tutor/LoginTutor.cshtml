@@ -1,0 +1,27 @@
+﻿
+@{
+    ViewBag.Title = "LoginTutor";
+}
+
+<h2>Login As a Tutor</h2>
+
+<form action="/Tutor/MainPage" method="POST">
+    <div>
+        <label>Email ID:</label> <input type="text" name="EmailID" />
+    </div>
+    <div>
+        <label>Password:</label> <input type="text" name="Password" />
+    </div>
+    <div>
+        <input type="submit" value="Login" />
+
+    </div>
+    <div>
+        <p>New User?</p>
+    </div>
+    <div>
+        <a href="/Home/RegisterTutor">Register</a>
+
+    </div>
+</form>
+

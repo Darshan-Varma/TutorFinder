@@ -1,7 +1,9 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net.Http;
+using System.Runtime.InteropServices;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
@@ -19,6 +21,7 @@ namespace Tutor_Finder.Controllers
         {
             client = new HttpClient();
             client.BaseAddress = new Uri("https://localhost:44309/api/");
+            //client.BaseAddress = new Uri("http://darshan0305-001-site1.gtempurl.com/api/");
         }
         // GET: Tutor/List
         public ActionResult List()
@@ -31,7 +34,84 @@ namespace Tutor_Finder.Controllers
 
             return View(Tutor);
         }
+        // GET: Tutor/MainPage
+        public ActionResult MainPage(Tutor tutor)
+        {
+            
+            if (Session["TutorID"] != null)
+            {
+                TutorDetails ViewModel = new TutorDetails();
+                string url = "TutorData/FindTutor/" + Session["TutorID"];
+                HttpResponseMessage response = client.GetAsync(url).Result;
 
+                TutorDTO Tutor = response.Content.ReadAsAsync<TutorDTO>().Result;
+                ViewModel.Tutor = Tutor;
+
+                url = "Studentdata/listStudentsforTutor/" + Session["TutorID"];
+                response = client.GetAsync(url).Result;
+                IEnumerable<StudentDto> Students = response.Content.ReadAsAsync<IEnumerable<StudentDto>>().Result;
+                ViewModel.Student = Students;
+
+
+                return View(ViewModel);
+            }
+            else if(tutor.EmailID != null)
+            {
+                bool isLogin = CheckLogin(tutor);
+                if (isLogin)
+                {
+                    TutorDetails ViewModel = new TutorDetails();
+                    string url = "TutorData/FindTutor/" + Session["TutorID"];
+                    HttpResponseMessage response = client.GetAsync(url).Result;
+
+                    TutorDTO Tutor = response.Content.ReadAsAsync<TutorDTO>().Result;
+                    ViewModel.Tutor = Tutor;
+
+                    url = "Studentdata/listStudentsforTutor/" + Session["TutorID"];
+                    response = client.GetAsync(url).Result;
+                    IEnumerable<StudentDto> Students = response.Content.ReadAsAsync<IEnumerable<StudentDto>>().Result;
+                    ViewModel.Student = Students;
+
+
+                    return View(ViewModel);
+                }
+                else
+                    return RedirectToAction("LoginFailed");
+            }
+            else
+                return RedirectToAction("LoginFailed");
+        }
+
+        // GET: Student/LoginFailed
+        public ActionResult LoginFailed()
+        {
+            return View();
+        }
+        //GET: Tutor/GetStudentsForTutor/5
+        public ActionResult GetStudentsForTutor(int id)
+        {
+            if (Session.Count > 0)
+            {
+                TutorDetails ViewModel = new TutorDetails();
+                string url = "TutorData/FindTutor/" + id;
+                HttpResponseMessage response = client.GetAsync(url).Result;
+
+                TutorDTO Tutor = response.Content.ReadAsAsync<TutorDTO>().Result;
+                ViewModel.Tutor = Tutor;
+
+                url = "Studentdata/listStudentsforTutor/" + id;
+                response = client.GetAsync(url).Result;
+                IEnumerable<StudentDto> Students = response.Content.ReadAsAsync<IEnumerable<StudentDto>>().Result;
+                ViewModel.Student = Students;
+
+
+                return View(ViewModel);
+            }
+            else
+            {
+                return RedirectToAction("LoginFailed");
+            }
+        }
         //GET: Tutor/Details/5
         public ActionResult Details(int id)
         {
@@ -54,37 +134,72 @@ namespace Tutor_Finder.Controllers
 
             return View(ViewModel);
         }
+        // POST: Tutor/CheckLogin
+        [HttpPost]
+        public bool CheckLogin(Tutor tutor)
+        {
+            string url = "TutorData/CheckLogin";
+
+            string jsonpayload = jss.Serialize(tutor);
+
+            HttpContent content = new StringContent(jsonpayload);
+            content.Headers.ContentType.MediaType = "application/json";
+
+            var response = client.PostAsync(url, content).Result;
+            IEnumerable<Tutor> loggedInTutor = response.Content.ReadAsAsync<IEnumerable<Tutor>>().Result;
+
+            if (loggedInTutor.Count() > 0)
+            {
+                Tutor TutorLoggedIn = loggedInTutor.SingleOrDefault();
+                Session["EmailID"] = TutorLoggedIn.EmailID;
+                Session["StudentName"] = TutorLoggedIn.TutorFirstName;
+                Session["isAdmin"] = "false";
+                Session["TutorID"] = TutorLoggedIn.TutorID;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
         //GET: Tutor/DetailsLanguage/5
         public ActionResult DetailsLanguage(int id)
         {
-            TutorDetails ViewModel = new TutorDetails();
-            string url = "TutorData/FindTutor/" + id;
-            HttpResponseMessage response = client.GetAsync(url).Result;
+            if (Session.Count > 0)
+            {
+                TutorDetails ViewModel = new TutorDetails();
+                string url = "TutorData/FindTutor/" + id;
+                HttpResponseMessage response = client.GetAsync(url).Result;
 
-            TutorDTO Tutor = response.Content.ReadAsAsync<TutorDTO>().Result;
-            ViewModel.Tutor = Tutor;
+                TutorDTO Tutor = response.Content.ReadAsAsync<TutorDTO>().Result;
+                ViewModel.Tutor = Tutor;
 
-            url = "Studentdata/listStudentsforTutor/" + id;
-            response = client.GetAsync(url).Result;
-            IEnumerable<StudentDto> Students = response.Content.ReadAsAsync<IEnumerable<StudentDto>>().Result;
-            ViewModel.Student = Students;
+                url = "Studentdata/listStudentsforTutor/" + id;
+                response = client.GetAsync(url).Result;
+                IEnumerable<StudentDto> Students = response.Content.ReadAsAsync<IEnumerable<StudentDto>>().Result;
+                ViewModel.Student = Students;
 
-            url = "Studentdata/ListOtherStudents/" + id;
-            response = client.GetAsync(url).Result;
-            IEnumerable<StudentDto> OtherStudents = response.Content.ReadAsAsync<IEnumerable<StudentDto>>().Result;
-            ViewModel.OtherStudents = OtherStudents;
+                url = "Studentdata/ListOtherStudents/" + id;
+                response = client.GetAsync(url).Result;
+                IEnumerable<StudentDto> OtherStudents = response.Content.ReadAsAsync<IEnumerable<StudentDto>>().Result;
+                ViewModel.OtherStudents = OtherStudents;
 
-            url = "Studentdata/listLanguagesforTutor/" + id;
-            response = client.GetAsync(url).Result;
-            IEnumerable<LanguageDto> Languages = response.Content.ReadAsAsync<IEnumerable<LanguageDto>>().Result;
-            ViewModel.Language = Languages;
+                url = "Studentdata/listLanguagesforTutor/" + id;
+                response = client.GetAsync(url).Result;
+                IEnumerable<LanguageDto> Languages = response.Content.ReadAsAsync<IEnumerable<LanguageDto>>().Result;
+                ViewModel.Language = Languages;
 
-            url = "Studentdata/ListOtherLanguages/" + id;
-            response = client.GetAsync(url).Result;
-            IEnumerable<LanguageDto> OtherLanguages = response.Content.ReadAsAsync<IEnumerable<LanguageDto>>().Result;
-            ViewModel.OtherLanguages = OtherLanguages;
+                url = "Studentdata/ListOtherLanguages/" + id;
+                response = client.GetAsync(url).Result;
+                IEnumerable<LanguageDto> OtherLanguages = response.Content.ReadAsAsync<IEnumerable<LanguageDto>>().Result;
+                ViewModel.OtherLanguages = OtherLanguages;
 
-            return View(ViewModel);
+                return View(ViewModel);
+            }
+            else
+            {
+                return RedirectToAction("LoginFailed");
+            }
         }
 
         //POST: Tutor/Associate/{Tutorid}
@@ -121,6 +236,17 @@ namespace Tutor_Finder.Controllers
 
             return RedirectToAction("Details/" + id);
         }
+        //POST: Tutor/UnassociateLanguage/{Tutorid}
+        [HttpGet]
+        public ActionResult UnassociateLanguage(int id, int LanguageId)
+        {
+            string url = "Tutor/UnAssociateLanguageFromTutor/" + id + "/" + LanguageId;
+            HttpContent content = new StringContent("");
+            content.Headers.ContentType.MediaType = "application/json";
+            HttpResponseMessage response = client.PostAsync(url, content).Result;
+
+            return RedirectToAction("DetailsLanguage/" + id);
+        }
 
         public ActionResult Error()
         {
@@ -154,12 +280,20 @@ namespace Tutor_Finder.Controllers
             HttpResponseMessage response = client.PostAsync(url, content).Result;
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("List");
+                return RedirectToAction("LoginTutor");
             }
             else
             {
                 return RedirectToAction("Error");
             }
+        }
+
+        // GET: Student/LoginTutor
+        public ActionResult LoginTutor()
+        {
+            if (Session.Count > 0)
+                Session.RemoveAll();
+            return View();
         }
 
         // GET: Tutor/Edit/5

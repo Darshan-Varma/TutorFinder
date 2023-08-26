@@ -1,0 +1,28 @@
+﻿@model Tutor_Finder.Models.ViewModels.TutorDetails
+@{
+    ViewBag.Title = "GetStudentsForTutor";
+}
+<nav>
+    <ul>
+        <li><a href="/Tutor/MainPage">Home</a></li>
+        <li><a href="/Tutor/DetailsLanguage/@Model.Tutor.TutorID">Associate Courses</a></li>
+        <li><a href="/Tutor/LoginTutor">Logout</a></li>
+    </ul>
+</nav>
+<div class="student-container">
+    <h2>View your Students</h2>
+
+    @foreach (var student in Model.Student)
+    {
+        <div class="student">
+            <div>First Name: @student.StudentFirstName</div>
+            <div>Last Name: @student.StudentLastName</div>
+            <div>Semester: @student.StudentSemester</div>
+            <div>Student Number: @student.StudentNumber</div>
+            <div>Email ID: @student.StudentEmailID</div>
+            <div>Contact Number: @student.StudentNumber</div>
+        </div>
+
+
+    }
+</div>

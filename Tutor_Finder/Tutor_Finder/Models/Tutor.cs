@@ -12,8 +12,12 @@ namespace Tutor_Finder.Models
         public int TutorID { get; set; }
         public string TutorFirstName { get; set; }
         public string TutorLastName { get; set; }
-        public int TutorRating { get; set; }
         public string TutorDescription { get; set; }
+        public string ContactNumber { get; set; }
+        public string SocialMedia { get; set; }
+        public string EmailID { get; set; }
+        public string Password  { get; set; }
+
         public ICollection<Language> Languages { get; set; }
         public ICollection<Student> Students { get; set; }
     }
@@ -23,6 +27,10 @@ namespace Tutor_Finder.Models
         public int TutorID { get; set; }
         public string TutorFirstName { get; set; }
         public string TutorLastName { get; set; }
+        public string TutorDescription { get; set; }
+        public string ContactNumber { get; set; }
+        public string SocialMedia { get; set; }
+        public string EmailID { get; set; }
         public string LanguageName { get; set; }
     }
 }   

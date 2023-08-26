@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -21,17 +22,29 @@ namespace Tutor_Finder.Controllers
             client.BaseAddress = new Uri("https://localhost:44309/api/");
         }
         // GET: Language/List
-        public ActionResult List()
+        public ActionResult List(Student student)
         {
-            string url = "LanguageData/ListLanguages";
-            HttpResponseMessage response = client.GetAsync(url).Result;
+            bool isLogin = CheckLogin(student);
+            if (isLogin)
+            {
+                string url = "LanguageData/ListLanguages";
+                HttpResponseMessage response = client.GetAsync(url).Result;
 
-            IEnumerable<LanguageDto> Language = response.Content.ReadAsAsync<IEnumerable<LanguageDto>>().Result;
+                IEnumerable<LanguageDto> Language = response.Content.ReadAsAsync<IEnumerable<LanguageDto>>().Result;
 
 
-            return View(Language);
+                return View(Language);
+            }
+            else
+            {
+                return RedirectToAction("LoginFailed");
+            }
         }
-
+        // GET: Language/LoginFailed
+        public ActionResult LoginFailed()
+        {
+            return View();
+        }
         // GET: Language/Details/5
         public ActionResult Details(int id)
         {
@@ -76,6 +89,33 @@ namespace Tutor_Finder.Controllers
             else
             {
                 return RedirectToAction("Error");
+            }
+        }
+
+
+        // POST: Language/CheckLogin
+        [HttpPost]
+        public bool CheckLogin(Student student)
+        {
+            string url = "StudentData/CheckLogin";
+
+            string jsonpayload = jss.Serialize(student);
+
+            HttpContent content = new StringContent(jsonpayload);
+            content.Headers.ContentType.MediaType = "application/json";
+
+            var response = client.PostAsync(url, content).Result;
+            bool login = response.Content.ReadAsAsync<bool>().Result;
+            if (login)
+            {
+                Session["EmailID"] = student.StudentEmailID;
+                Session["StudentName"] = student.StudentFirstName;
+                Session["isAdmin"] = "false";
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 

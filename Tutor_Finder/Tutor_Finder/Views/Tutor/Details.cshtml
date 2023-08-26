@@ -2,39 +2,53 @@
 @{
     ViewBag.Title = "List";
 }
-<nav>
-    <ul>
-        <a href="/Tutor/List">Go back to list</a>
-        <li><a href="/Tutor/Edit/@Model.Tutor.TutorID">Update</a></li>
-        <li><a href="/Tutor/DetailsLanguage/@Model.Tutor.TutorID">Associate Languages for Tutor</a></li>
-        <li><a style="color:#ab2020;" href="/Tutor/DeleteConfirm/@Model.Tutor.TutorID">Delete</a></li>
-    </ul>
-</nav>
+@if (Session["isAdmin"].ToString() == "true")
+{
+    <nav>
+        <ul>
+            <a href="/Tutor/List">Go back to list</a>
+            <li><a href="/Tutor/Edit/@Model.Tutor.TutorID">Update</a></li>
+            <li><a href="/Tutor/DetailsLanguage/@Model.Tutor.TutorID">Associate Languages for Tutor</a></li>
+            <li><a style="color:#ab2020;" href="/Tutor/DeleteConfirm/@Model.Tutor.TutorID">Delete</a></li>
+        </ul>
+    </nav>
+}
+<h2>Tutor : @Model.Tutor.TutorFirstName Contact Details</h2>
 
-<h2>@Model.Tutor.TutorFirstName</h2>
+<div>First Name: @Model.Tutor.TutorFirstName</div>
+<div>Last Name: @Model.Tutor.TutorLastName</div>
+<div>Description (Style of teaching): @Model.Tutor.TutorDescription</div>
+<div>Contact Number: @Model.Tutor.ContactNumber</div>
+<div>Email ID: @Model.Tutor.EmailID</div>
+<div>Social Media: @Model.Tutor.SocialMedia</div>
 
-<div>Tutor First Name: @Model.Tutor.TutorFirstName</div>
 
 
-<div>
-    <h4>Students for @Model.Tutor.TutorFirstName:</h4>
-    @foreach (var Student in Model.Student)
-    {
 
-        <a href="/Student/Details/@Student.StudentID">@Student.StudentFirstName, @Student.StudentLastName</a> <a style="color:#ab2020;" href="/Tutor/Unassociate/@Model.Tutor.TutorID?StudentId=@Student.StudentID">[x]</a><br />
-    }
-</div>
-<div>
 
-    <form method="POST" action="/Tutor/Associate/@Model.Tutor.TutorID">
-        <select name="StudentID">
-            <option value="">Select Student</option>
-            @foreach (var Student in Model.OtherStudents)
-            {
-                <option value="@Student.StudentID">@Student.StudentFirstName, @Student.StudentLastName</option>
-            }
 
-        </select>
-        <input type="submit" value="Add Student" />
-    </form>
-</div>
+@if (Session["isAdmin"].ToString() == "true")
+{
+    <div>
+        <h4>Students for @Model.Tutor.TutorFirstName:</h4>
+        @foreach (var Student in Model.Student)
+        {
+
+            <a href="/Student/Details/@Student.StudentID">@Student.StudentFirstName, @Student.StudentLastName</a> <a style="color:#ab2020;" href="/Tutor/Unassociate/@Model.Tutor.TutorID?StudentId=@Student.StudentID">[x]</a><br />
+        }
+    </div>
+    <div>
+
+        <form method="POST" action="/Tutor/Associate/@Model.Tutor.TutorID">
+            <select name="StudentID">
+                <option value="">Select Student</option>
+                @foreach (var Student in Model.OtherStudents)
+                {
+                    <option value="@Student.StudentID">@Student.StudentFirstName, @Student.StudentLastName</option>
+                }
+
+            </select>
+            <input type="submit" value="Add Student" />
+        </form>
+    </div>
+}

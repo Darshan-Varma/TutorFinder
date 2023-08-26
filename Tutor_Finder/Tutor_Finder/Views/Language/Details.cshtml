@@ -1,8 +1,12 @@
 ﻿@model Tutor_Finder.Models.ViewModels.LanguageDetails
 
-<a href="/Language/List">Go back to list</a>
-<li><a href="/Language/Edit/@Model.Language.LanguageID">Update</a></li>
-<li><a style="color:#ab2020;" href="/Language/DeleteConfirm/@Model.Language.LanguageID">Delete</a></li>
+@if (Session["isAdmin"].ToString() == "true")
+{
+    <a href="/Language/List">Go back to list</a>
+    <li><a href="/Language/Edit/@Model.Language.LanguageID">Update</a></li>
+    <li><a style="color:#ab2020;" href="/Language/DeleteConfirm/@Model.Language.LanguageID">Delete</a></li>
+}
+
 
 @{
     ViewBag.Title = "View";

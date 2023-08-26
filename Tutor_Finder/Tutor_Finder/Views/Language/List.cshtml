@@ -2,9 +2,13 @@
 @{
     ViewBag.Title = "List";
 }
-
-<h2>List</h2>
+@if (Session["isAdmin"].ToString() == "true")
+{
+    
 <div><a href="/Language/New">New Language</a></div>
+}
+
+<h2>Choose language you need help with : </h2>
 
 @foreach (var Language in Model)
 {

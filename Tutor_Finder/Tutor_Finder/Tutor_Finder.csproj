@@ -217,6 +217,14 @@
     <Compile Include="Migrations\202308200216025_students-tutors.designer.cs">
       <DependentUpon>202308200216025_students-tutors.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\202308250159515_tutordetails.cs" />
+    <Compile Include="Migrations\202308250159515_tutordetails.designer.cs">
+      <DependentUpon>202308250159515_tutordetails.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\202308250203345_studentdetails.cs" />
+    <Compile Include="Migrations\202308250203345_studentdetails.designer.cs">
+      <DependentUpon>202308250203345_studentdetails.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -308,6 +316,13 @@
     <Content Include="Views\Tutor\DetailsLanguage.cshtml" />
     <Content Include="Views\Home\RegisterTutor.cshtml" />
     <Content Include="Views\Home\RegisterStudent.cshtml" />
+    <Content Include="Views\Student\LoginStudent.cshtml" />
+    <Content Include="Views\Tutor\LoginTutor.cshtml" />
+    <Content Include="Views\Student\LoginFailed.cshtml" />
+    <Content Include="Views\Language\LoginFailed.cshtml" />
+    <Content Include="Views\Tutor\MainPage.cshtml" />
+    <Content Include="Views\Tutor\LoginFailed.cshtml" />
+    <Content Include="Views\Tutor\GetStudentsForTutor.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -343,6 +358,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\202308200216025_students-tutors.resx">
       <DependentUpon>202308200216025_students-tutors.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202308250159515_tutordetails.resx">
+      <DependentUpon>202308250159515_tutordetails.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\202308250203345_studentdetails.resx">
+      <DependentUpon>202308250203345_studentdetails.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -47,7 +47,32 @@ namespace Tutor_Finder.Controllers
             {
                 TutorID = a.TutorID,
                 TutorFirstName = a.TutorFirstName,
-                TutorLastName = a.TutorLastName
+                TutorLastName = a.TutorLastName,
+                TutorDescription = a.TutorDescription,
+                ContactNumber = a.ContactNumber,
+                EmailID = a.EmailID,
+                SocialMedia = a.SocialMedia
+
+            }));
+
+            return TutorDTOs;
+        }
+        // GET: api/TutorData/GetLoggedInTutor/darshan@gmail.com
+        [HttpGet]
+        public IEnumerable<TutorDTO> GetLoggedInTutor(string emailID)
+        {
+            List<Tutor> Tutors = db.Tutors.Where(a => a.EmailID == emailID).ToList();
+            List<TutorDTO> TutorDTOs = new List<TutorDTO>();
+
+            Tutors.ForEach(a => TutorDTOs.Add(new TutorDTO()
+            {
+                TutorID = a.TutorID,
+                TutorFirstName = a.TutorFirstName,
+                TutorLastName = a.TutorLastName,
+                TutorDescription = a.TutorDescription,
+                ContactNumber = a.ContactNumber,
+                EmailID = a.EmailID,
+                SocialMedia = a.SocialMedia
 
             }));
 
@@ -92,6 +117,7 @@ namespace Tutor_Finder.Controllers
 
             return Ok();
         }
+        
         [HttpPost]
         [Route("api/Tutor/AssociateTutorWithLanguage/{Tutorid}/{Languageid}")]
         public IHttpActionResult AssociateTutorWithLanguage(int Tutorid, int Languageid)
@@ -132,6 +158,27 @@ namespace Tutor_Finder.Controllers
             return Ok();
         }
 
+        [HttpPost]
+        [Route("api/Tutor/UnAssociateLanguageFromTutor/{Tutorid}/{Languageid}")]
+        public IHttpActionResult UnAssociateLanguageFromTutor(int Tutorid, int Languageid)
+        {
+
+            Tutor SelectedTutor = db.Tutors.Include(a => a.Languages).Where(a => a.TutorID == Tutorid).FirstOrDefault();
+            
+            Language Language = db.Languages.Find(Languageid);
+
+            if (SelectedTutor == null || Language == null)
+            {
+                return NotFound();
+            }
+
+
+            SelectedTutor.Languages.Remove(Language);
+            db.SaveChanges();
+
+            return Ok();
+        }
+
 
         // GET: api/TutorData/FindTutor/5
         [ResponseType(typeof(Tutor))]
@@ -143,7 +190,11 @@ namespace Tutor_Finder.Controllers
             {
                 TutorID = Tutor.TutorID,
                 TutorFirstName = Tutor.TutorFirstName,
-                TutorLastName = Tutor.TutorLastName
+                TutorLastName = Tutor.TutorLastName,
+                TutorDescription = Tutor.TutorDescription,
+                ContactNumber = Tutor.ContactNumber,
+                EmailID = Tutor.EmailID,
+                SocialMedia = Tutor.SocialMedia
             };
             if (Tutor == null)
             {
@@ -152,7 +203,44 @@ namespace Tutor_Finder.Controllers
 
             return Ok(TutorDTOs);
         }
+        // GET: api/TutorData/GetTutor/emaiiID
+        [ResponseType(typeof(Tutor))]
+        [HttpGet]
+        public IHttpActionResult GetTutor(string emailID)
+        {
+            Tutor Tutor = (Tutor)db.Tutors.Where(x => x.EmailID == emailID);
+            TutorDTO TutorDTOs = new TutorDTO()
+            {
+                TutorID = Tutor.TutorID,
+                TutorFirstName = Tutor.TutorFirstName,
+                TutorLastName = Tutor.TutorLastName,
+                TutorDescription = Tutor.TutorDescription,
+                ContactNumber = Tutor.ContactNumber,
+                EmailID = Tutor.EmailID,
+                SocialMedia = Tutor.SocialMedia
+            };
+            if (Tutor == null)
+            {
+                return NotFound();
+            }
 
+            return Ok(TutorDTOs);
+        }
+        // POST: api/TutorData/CheckLogin
+        [ResponseType(typeof(Tutor))]
+        [System.Web.Http.HttpPost]
+        public IEnumerable<Tutor> CheckLogin(Tutor tutor)
+        {
+            List<Tutor> isTutorLoggedIn = db.Tutors.Where(x => x.EmailID == tutor.EmailID
+                                        && x.Password == tutor.Password).ToList();
+            //if (isTutorLoggedIn.Count > 0)
+            //{
+            //    return true;
+            //}
+            //else
+            //    return false;
+            return isTutorLoggedIn;
+        }
         // POST: api/TutorData/UpdateTutor/5
         [ResponseType(typeof(void))]
         [HttpPost]

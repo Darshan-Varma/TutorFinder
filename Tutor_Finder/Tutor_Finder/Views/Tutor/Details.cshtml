@@ -2,16 +2,19 @@
 @{
     ViewBag.Title = "List";
 }
-@if (Session["isAdmin"]!=null && Session["isAdmin"].ToString() == "true")
+@if (Session["isAdmin"] != null && Session["isAdmin"].ToString() == "true")
 {
     <nav>
         <ul>
-            <a href="/Tutor/List">Go back to list</a>
-            <li><a href="/Tutor/Edit/@Model.Tutor.TutorID">Update</a></li>
-            <li><a href="/Tutor/DetailsLanguage/@Model.Tutor.TutorID">Associate Languages for Tutor</a></li>
-            <li><a style="color:#ab2020;" href="/Tutor/DeleteConfirm/@Model.Tutor.TutorID">Delete</a></li>
+            <li><a href="/Tutor/List">Tutor</a></li>
+            <li><a href="/Language/List">Language</a></li>
+            <li><a href="/Student/List">Student</a></li>
+            <li><a href="/Tutor/LoginAdmin">Logout</a></li>
         </ul>
     </nav>
+    <div><a href="/Tutor/Edit/@Model.Tutor.TutorID">Update</a></div>
+    <div><a href="/Tutor/DetailsLanguage/@Model.Tutor.TutorID">Associate Languages for Tutor</a></div>
+    <div><a href="/Tutor/DeleteConfirm/@Model.Tutor.TutorID">Delete</a></div>
 }
 else
 {

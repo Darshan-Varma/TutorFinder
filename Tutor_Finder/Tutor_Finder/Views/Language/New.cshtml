@@ -2,7 +2,14 @@
     ViewBag.Title = "Create";
 }
 
-<a href="/Language/List">Go back to list</a>
+<nav>
+    <ul>
+        <li><a href="/Tutor/List">Tutor</a></li>
+        <li><a href="/Language/List">Language</a></li>
+        <li><a href="/Student/List">Student</a></li>
+        <li><a href="/Tutor/LoginAdmin">Logout</a></li>
+    </ul>
+</nav>
 
 <h2>Add Language</h2>
 <form action="/Language/Create" method="POST">

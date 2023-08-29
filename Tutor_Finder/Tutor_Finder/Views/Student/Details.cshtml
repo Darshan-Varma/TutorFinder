@@ -9,11 +9,15 @@
 {
     <nav>
         <ul>
-            <li><a href="/Student/List">Go back to list</a></li>
-            <li><a href="/Student/Edit/@Model.Student.StudentID">Update</a></li>
-            <li><a style="color:#ab2020;" href="/Student/DeleteConfirm/@Model.Student.StudentID">Delete</a></li>
+            <li><a href="/Tutor/List">Tutor</a></li>
+            <li><a href="/Language/List">Language</a></li>
+            <li><a href="/Student/List">Student</a></li>
+            <li><a href="/Tutor/LoginAdmin">Logout</a></li>
         </ul>
     </nav>
+    <div><a href="/Student/Edit/@Model.Student.StudentID">Update</a></div>
+    <div><a href="/Student/DeleteConfirm/@Model.Student.StudentID">Delete</a></div>
+
 }
 else
 {
@@ -33,7 +37,7 @@ else
         <div>Semester: @Model.Student.StudentSemester</div>
         <div>Student Number: @Model.Student.StudentNumber</div>
         <div>Email ID: @Model.Student.StudentEmailID</div>
-        <div>Contact Number: @Model.Student.StudentNumber</div>
+        <div>Contact Number: @Model.Student.StudentContactNumber</div>
     </div>
 
 

@@ -324,7 +324,10 @@ h2 {
     font-size: 28px;
     margin-top: 20px;
 }
-
+a.btn.btn-default.admin-btn {
+    background-color: lightgreen;
+    border: 1px solid;
+}
 .row {
     display: flex;
     justify-content: space-between;
@@ -340,3 +343,4 @@ ul {
     list-style: disc;
     padding-left: 20px;
 }
+

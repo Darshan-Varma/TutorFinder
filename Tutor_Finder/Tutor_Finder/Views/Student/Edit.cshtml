@@ -5,11 +5,19 @@
 }
 @if (Session["isAdmin"].ToString() == "true")
 {
-    <li><a href="/Student/List">Go back to list</a></li>
-<li><a style="color:#ab2020;" href="/Student/DeleteConfirm/@Model.StudentID">Delete</a></li>
+    <nav>
+        <ul>
+            <li><a href="/Tutor/List">Tutor</a></li>
+            <li><a href="/Language/List">Language</a></li>
+            <li><a href="/Student/List">Student</a></li>
+            <li><a href="/Tutor/LoginAdmin">Logout</a></li>
+        </ul>
+    </nav>
+    <br />
+    <div><a href="/Student/DeleteConfirm/@Model.StudentID">Delete</a></div>
+    <h2>Update Student  </h2>
 
 }
-<h2>Update Student</h2>
 <form action="/Student/Update/@Model.StudentID" method="POST">
     <div style="display:none;">
         <input type="text" name="StudentId" value="@Model.StudentID" />
@@ -25,6 +33,12 @@
     </div>
     <div>
         <label>Student Number:</label> <input type="text" name="StudentNumber" value="@Model.StudentNumber" />
+    </div>
+    <div>
+        <label>Email ID:</label> <input type="text" name="StudentEmailID" value="@Model.StudentEmailID" />
+    </div>
+    <div>
+        <label>Contact Number:</label> <input type="text" name="StudentContactNumber" value="@Model.StudentContactNumber" />
     </div>
 
     <div>

@@ -241,6 +241,16 @@ namespace Tutor_Finder.Controllers
             //    return false;
             return isTutorLoggedIn;
         }
+        // POST: api/TutorData/CheckAdminLogin
+        [ResponseType(typeof(Admin))]
+        [System.Web.Http.HttpPost]
+        public IEnumerable<Admin> CheckAdminLogin(Admin admin)
+        {
+            List<Admin> isAdminLoggedIn = db.Admins.Where(x => x.AdminEmailID == admin.AdminEmailID
+                                        && x.AdminPassword == admin.AdminPassword).ToList();
+            
+            return isAdminLoggedIn;
+        }
         // POST: api/TutorData/UpdateTutor/5
         [ResponseType(typeof(void))]
         [HttpPost]

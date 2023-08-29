@@ -3,9 +3,18 @@
 @{
     ViewBag.Title = "DeleteConfirm";
 }
+<nav>
+    <ul>
+        <li><a href="/Tutor/List">Tutor</a></li>
+        <li><a href="/Language/List">Language</a></li>
+        <li><a href="/Student/List">Student</a></li>
+        <li><a href="/Tutor/LoginAdmin">Logout</a></li>
+    </ul>
+</nav>
+<br />
+<div><a href="/Language/List">Cancel</a></div>
 
 <h2>Are you sure you want to delete this Language?</h2>
-<a href="/Language/List">Cancel</a>
 <h3>Name: @Model.LanguageName</h3>
 <p>Language Description: @Model.LanguageDescription</p>
 <form action="/Language/Delete/@Model.LanguageID" method="POST">

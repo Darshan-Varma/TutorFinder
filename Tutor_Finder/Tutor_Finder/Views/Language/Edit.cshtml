@@ -3,8 +3,16 @@
 @{
     ViewBag.Title = "Edit";
 }
-<li><a href="/Language/List">Go back to list</a></li>
-<li><a style="color:#ab2020;" href="/Language/DeleteConfirm/@Model.LanguageID">Delete</a></li>
+<nav>
+    <ul>
+        <li><a href="/Tutor/List">Tutor</a></li>
+        <li><a href="/Language/List">Language</a></li>
+        <li><a href="/Student/List">Student</a></li>
+        <li><a href="/Tutor/LoginAdmin">Logout</a></li>
+    </ul>
+</nav>
+<br />
+<div><a href="/Language/DeleteConfirm/@Model.LanguageID">Delete</a></div>
 
 
 <h2>Update Language</h2>

@@ -2,14 +2,26 @@
 @{
     ViewBag.Title = "List";
 }
-<h2>List</h2>
+<nav>
+    <ul>
+        <li><a href="/Tutor/List">Tutor</a></li>
+        <li><a href="/Language/List">Language</a></li>
+        <li><a href="/Student/List">Student</a></li>
+        <li><a href="/Tutor/LoginAdmin">Logout</a></li>
+    </ul>
+</nav>
+<br />
 <div><a href="/Tutor/New">New Tutor</a></div>
-
+<h2>Hey, @Session["AdminName"].ToString()!</h2>
+<h4>List of Tutors  </h4>
+<br />
+<hr />
 @foreach (var Tutor in Model)
 {
     <h2><a href="/Tutor/Details/@Tutor.TutorID">@Tutor.TutorFirstName</a></h2>
     <div>Tutor Firstname: @Tutor.TutorFirstName</div>
     <div>Tutor Lastname: @Tutor.TutorLastName</div>
+    <hr />
 
 
 }

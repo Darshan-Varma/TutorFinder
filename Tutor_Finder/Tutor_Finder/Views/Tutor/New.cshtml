@@ -2,27 +2,34 @@
 @{
     ViewBag.Title = "Create";
 }
-
+<nav>
+    <ul>
+        <li><a href="/Tutor/List">Tutor</a></li>
+        <li><a href="/Language/List">Language</a></li>
+        <li><a href="/Student/List">Student</a></li>
+        <li><a href="/Tutor/LoginAdmin">Logout</a></li>
+    </ul>
+</nav>
 <h2>Create Tutor</h2>
-
-<a href="/Tutor/List">Go back to list</a>
 
 <form action="/Tutor/Create" method="POST">
     <div>
-        <label>Tutor First Name:</label> <input type="text" name="TutorFirstName" />
+        <label>First Name:</label> <input type="text" name="TutorFirstName" />
     </div>
     <div>
-        <label>Tutor Last Name:</label> <input type="text" name="TutorLastName" />
+        <label>Last Name:</label> <input type="text" name="TutorLastName" />
     </div>
     <div>
-        <label>Languages:</label>
-        <select name="LanguageID">
-            @foreach (var Languages in Model)
-            {
-                <option value="@Languages.LanguageID">@Languages.LanguageName</option>
-
-            }
-        </select>
+        <label>Description:</label> <input type="text" name="TutorDescription" />
+    </div>
+    <div>
+        <label>Contact Number:</label> <input type="text" name="ContactNumber" />
+    </div>
+    <div>
+        <label>Social Media:</label> <input type="text" name="SocialMedia" />
+    </div>
+    <div>
+        <label>EmailID:</label> <input type="text" name="EmailID" />
     </div>
     <div>
         <input type="submit" value="Add Tutor" />

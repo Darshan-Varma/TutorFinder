@@ -3,12 +3,25 @@
     ViewBag.Title = "List of Students";
 }
 
-<h2>List of Students</h2>
 @if (Session["isAdmin"].ToString() == "true")
 {
+    <nav>
+        <ul>
+            <li><a href="/Tutor/List">Tutor</a></li>
+            <li><a href="/Language/List">Language</a></li>
+            <li><a href="/Student/List">Student</a></li>
+            <li><a href="/Tutor/LoginAdmin">Logout</a></li>
+        </ul>
+    </nav>
+    <br />
     <a href="/Student/New">New Student</a>
+    <h2>Hey, @Session["AdminName"].ToString()!</h2>
+    <h4>List of Students  </h4>
+    <br />
 }
-    @foreach (var Student in Model)
-    {
-        <h3><a href="/Student/Details/@Student.StudentID">@Student.StudentFirstName, @Student.StudentLastName</a></h3>
-    }
+<hr />
+@foreach (var Student in Model)
+{
+    <h3><a href="/Student/Details/@Student.StudentID">@Student.StudentFirstName, @Student.StudentLastName</a></h3>
+    <hr />
+}

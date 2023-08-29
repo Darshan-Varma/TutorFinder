@@ -27,6 +27,7 @@ namespace Tutor_Finder.Models
         public DbSet<Tutor>Tutors { get; set; }
         public DbSet<Language>Languages { get; set; }
         public DbSet<Student> Students { get; set; }
+        public DbSet<Admin> Admins { get; set; }
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();

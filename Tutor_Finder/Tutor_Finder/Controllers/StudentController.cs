@@ -19,17 +19,30 @@ namespace Tutor_Finder.Controllers
         {
             client = new HttpClient();
             client.BaseAddress = new Uri("https://localhost:44309/api/");
+            //client.BaseAddress = new Uri("http://darshan0305-001-site1.gtempurl.com/api/");
         }
         // GET: Student/List
         public ActionResult List()
         {
-            string url = "StudentData/ListStudents";
-            HttpResponseMessage response = client.GetAsync(url).Result;
+            if (Session["AdminID"] != null)
+            {
+                string url = "StudentData/ListStudents";
+                HttpResponseMessage response = client.GetAsync(url).Result;
 
-            IEnumerable<StudentDto> Student = response.Content.ReadAsAsync<IEnumerable<StudentDto>>().Result;
+                IEnumerable<StudentDto> Student = response.Content.ReadAsAsync<IEnumerable<StudentDto>>().Result;
 
 
-            return View(Student);
+                return View(Student);
+            }
+            else
+            {
+                return RedirectToAction("LoginFailedAdmin");
+            }
+        }
+        // GET: Language/LoginFailedAdmin
+        public ActionResult LoginFailedAdmin()
+        {
+            return View();
         }
         // GET: Student/LoginStudent
         public ActionResult LoginStudent()
@@ -47,7 +60,7 @@ namespace Tutor_Finder.Controllers
         // GET: Student/Details/5
         public ActionResult Details(int id)
         {
-            if (Session["StudentID"] != null)
+            if (Session["StudentID"] != null || Session["AdminID"] != null)
             {
                 StudentDetails ViewModel = new StudentDetails();
 
@@ -73,89 +86,131 @@ namespace Tutor_Finder.Controllers
         // GET: Student/New
         public ActionResult New()
         {
-            return View();
+            if (Session["AdminID"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("LoginFailedAdmin");
+            }
         }
 
         // POST: Student/Create
         [HttpPost]
         public ActionResult Create(Student Student)
         {
-            string url = "StudentData/addStudent";
-
-            string jsonpayload = jss.Serialize(Student);
-
-            HttpContent content = new StringContent(jsonpayload);
-            content.Headers.ContentType.MediaType = "application/json";
-
-            HttpResponseMessage response = client.PostAsync(url, content).Result;
-            if (response.IsSuccessStatusCode)
+            if (Session["AdminID"] != null)
             {
-                return RedirectToAction("LoginStudent");
+                string url = "StudentData/addStudent";
+
+                string jsonpayload = jss.Serialize(Student);
+
+                HttpContent content = new StringContent(jsonpayload);
+                content.Headers.ContentType.MediaType = "application/json";
+
+                HttpResponseMessage response = client.PostAsync(url, content).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("List");
+                }
+                else
+                {
+                    return RedirectToAction("Error");
+                }
             }
             else
             {
-                return RedirectToAction("Error");
+                return RedirectToAction("LoginFailedAdmin");
             }
         }
 
         // GET: Student/Edit/5
         public ActionResult Edit(int id)
         {
-            string url = "Studentdata/findStudent/" + id;
-            HttpResponseMessage response = client.GetAsync(url).Result;
-            StudentDto Student = response.Content.ReadAsAsync<StudentDto>().Result;
-            return View(Student);
+            if (Session["AdminID"] != null)
+            {
+                string url = "Studentdata/findStudent/" + id;
+                HttpResponseMessage response = client.GetAsync(url).Result;
+                StudentDto Student = response.Content.ReadAsAsync<StudentDto>().Result;
+                return View(Student);
+            }
+            else
+            {
+                return RedirectToAction("LoginFailedAdmin");
+            }
         }
 
         // POST: Student/Update/5
         [HttpPost]
         public ActionResult Update(int id, Student Student)
         {
-            string url = "Studentdata/updateStudent/" + id;
-            string jsonpayload = jss.Serialize(Student);
-            HttpContent content = new StringContent(jsonpayload);
-            content.Headers.ContentType.MediaType = "application/json";
-            HttpResponseMessage response = client.PostAsync(url, content).Result;
-            Debug.WriteLine(content);
-            if (response.IsSuccessStatusCode)
+            if (Session["AdminID"] != null)
             {
-                return RedirectToAction("List");
+                string url = "Studentdata/updateStudent/" + id;
+                string jsonpayload = jss.Serialize(Student);
+                HttpContent content = new StringContent(jsonpayload);
+                content.Headers.ContentType.MediaType = "application/json";
+                HttpResponseMessage response = client.PostAsync(url, content).Result;
+                Debug.WriteLine(content);
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("List");
+                }
+                else
+                {
+                    return RedirectToAction("Error");
+                }
             }
             else
             {
-                return RedirectToAction("Error");
+                return RedirectToAction("LoginFailedAdmin");
             }
         }
 
         // GET: Student/DeleteConfirm/5
         public ActionResult DeleteConfirm(int id)
         {
-            string url = "StudentData/findStudent/" + id;
-            HttpResponseMessage response = client.GetAsync(url).Result;
-            StudentDto Student = response.Content.ReadAsAsync<StudentDto>().Result;
+            if (Session["AdminID"] != null)
+            {
+                string url = "StudentData/findStudent/" + id;
+                HttpResponseMessage response = client.GetAsync(url).Result;
+                StudentDto Student = response.Content.ReadAsAsync<StudentDto>().Result;
 
 
-            return View(Student);
+                return View(Student);
+            }
+            else
+            {
+                return RedirectToAction("LoginFailedAdmin");
+            }
         }
 
         // POST: Student/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, Student Student)
         {
-            string url = "StudentData/deleteStudent/" + id;
-            string jsonpayload = jss.Serialize(Student);
-
-            HttpContent content = new StringContent(jsonpayload);
-            content.Headers.ContentType.MediaType = "application/json";
-
-            HttpResponseMessage response = client.PostAsync(url, content).Result;
-            if (response.IsSuccessStatusCode)
+            if (Session["AdminID"] != null)
             {
-                return RedirectToAction("List");
+                string url = "StudentData/deleteStudent/" + id;
+                string jsonpayload = jss.Serialize(Student);
+
+                HttpContent content = new StringContent(jsonpayload);
+                content.Headers.ContentType.MediaType = "application/json";
+
+                HttpResponseMessage response = client.PostAsync(url, content).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("List");
+                }
+                else
+                {
+                    return RedirectToAction("Error");
+                }
             }
             else
             {
-                return RedirectToAction("Error");
+                return RedirectToAction("LoginFailedAdmin");
             }
         }
     }

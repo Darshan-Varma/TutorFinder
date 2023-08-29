@@ -20,11 +20,12 @@ namespace Tutor_Finder.Controllers
         {
             client = new HttpClient();
             client.BaseAddress = new Uri("https://localhost:44309/api/");
+            //client.BaseAddress = new Uri("http://darshan0305-001-site1.gtempurl.com/api/");
         }
         // GET: Language/List
         public ActionResult List(Student student)
         {
-            if (Session["StudentID"] != null)
+            if (Session["StudentID"] != null || Session["AdminID"] !=null)
             {
                 string url = "LanguageData/ListLanguages";
                 HttpResponseMessage response = client.GetAsync(url).Result;
@@ -58,6 +59,11 @@ namespace Tutor_Finder.Controllers
             }
             
         }
+        // GET: Language/LoginFailedAdmin
+        public ActionResult LoginFailedAdmin()
+        {
+            return View();
+        }
         // GET: Language/LoginFailed
         public ActionResult LoginFailed()
         {
@@ -66,7 +72,7 @@ namespace Tutor_Finder.Controllers
         // GET: Language/Details/5
         public ActionResult Details(int id)
         {
-            if (Session["StudentID"] != null)
+            if (Session["StudentID"] != null || Session["AdminID"] !=null)
             {
                 LanguageDetails ViewModel = new LanguageDetails();
 
@@ -92,28 +98,42 @@ namespace Tutor_Finder.Controllers
         // GET: Language/New
         public ActionResult New()
         {
-            return View();
+            if (Session["AdminID"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("LoginFailedAdmin");
+            }
         }
 
         // POST: Language/Create
         [HttpPost]
         public ActionResult Create(Language Language)
         {
-            string url = "LanguageData/addLanguage";
-
-            string jsonpayload = jss.Serialize(Language);
-
-            HttpContent content = new StringContent(jsonpayload);
-            content.Headers.ContentType.MediaType = "application/json";
-
-            HttpResponseMessage response = client.PostAsync(url, content).Result;
-            if (response.IsSuccessStatusCode)
+            if (Session["AdminID"] != null)
             {
-                return RedirectToAction("List");
+                string url = "LanguageData/addLanguage";
+
+                string jsonpayload = jss.Serialize(Language);
+
+                HttpContent content = new StringContent(jsonpayload);
+                content.Headers.ContentType.MediaType = "application/json";
+
+                HttpResponseMessage response = client.PostAsync(url, content).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("List");
+                }
+                else
+                {
+                    return RedirectToAction("Error");
+                }
             }
             else
             {
-                return RedirectToAction("Error");
+                return RedirectToAction("LoginFailedAdmin");
             }
         }
 
@@ -152,65 +172,100 @@ namespace Tutor_Finder.Controllers
         // GET: Language/Edit/5
         public ActionResult Edit(int id)
         {
-            string url = "Languagedata/findLanguage/" + id;
-            HttpResponseMessage response = client.GetAsync(url).Result;
-            LanguageDto Language = response.Content.ReadAsAsync<LanguageDto>().Result;
-            return View(Language);
+            if (Session["AdminID"] != null)
+            {
+                string url = "Languagedata/findLanguage/" + id;
+                HttpResponseMessage response = client.GetAsync(url).Result;
+                LanguageDto Language = response.Content.ReadAsAsync<LanguageDto>().Result;
+                return View(Language);
+            }
+            else
+            {
+                return RedirectToAction("LoginFailedAdmin");
+            }
         }
 
         // POST: Language/Update/5
         [HttpPost]
         public ActionResult Update(int id, Language Language)
         {
-            string url = "Languagedata/updateLanguage/" + id;
-            string jsonpayload = jss.Serialize(Language);
-            HttpContent content = new StringContent(jsonpayload);
-            content.Headers.ContentType.MediaType = "application/json";
-            HttpResponseMessage response = client.PostAsync(url, content).Result;
-            Debug.WriteLine(content);
-            if (response.IsSuccessStatusCode)
+            if (Session["AdminID"] != null)
             {
-                return RedirectToAction("List");
+                string url = "Languagedata/updateLanguage/" + id;
+                string jsonpayload = jss.Serialize(Language);
+                HttpContent content = new StringContent(jsonpayload);
+                content.Headers.ContentType.MediaType = "application/json";
+                HttpResponseMessage response = client.PostAsync(url, content).Result;
+                Debug.WriteLine(content);
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("List");
+                }
+                else
+                {
+                    return RedirectToAction("Error");
+                }
             }
             else
             {
-                return RedirectToAction("Error");
+                return RedirectToAction("LoginFailedAdmin");
             }
         }
 
         // GET: Language/DeleteConfirm/5
         public ActionResult DeleteConfirm(int id)
         {
-            string url = "LanguageData/findLanguage/" + id;
-            HttpResponseMessage response = client.GetAsync(url).Result;
-            LanguageDto Language = response.Content.ReadAsAsync<LanguageDto>().Result;
+            if (Session["AdminID"] != null)
+            {
+                string url = "LanguageData/findLanguage/" + id;
+                HttpResponseMessage response = client.GetAsync(url).Result;
+                LanguageDto Language = response.Content.ReadAsAsync<LanguageDto>().Result;
 
 
-            return View(Language);
+                return View(Language);
+            }
+            else
+            {
+                return RedirectToAction("LoginFailedAdmin");
+            }
         }
         public ActionResult Error()
         {
-            return View();
+            if (Session["AdminID"] != null)
+            {
+                return View();
+            }
+            else
+            {
+                return RedirectToAction("LoginFailedAdmin");
+            }
         }
 
         // POST: Language/Delete/5
         [HttpPost]
         public ActionResult Delete(int id, Language Language)
         {
-            string url = "LanguageData/deleteLanguage/" + id;
-            string jsonpayload = jss.Serialize(Language);
-
-            HttpContent content = new StringContent(jsonpayload);
-            content.Headers.ContentType.MediaType = "application/json";
-
-            HttpResponseMessage response = client.PostAsync(url, content).Result;
-            if (response.IsSuccessStatusCode)
+            if (Session["AdminID"] != null)
             {
-                return RedirectToAction("List");
+                string url = "LanguageData/deleteLanguage/" + id;
+                string jsonpayload = jss.Serialize(Language);
+
+                HttpContent content = new StringContent(jsonpayload);
+                content.Headers.ContentType.MediaType = "application/json";
+
+                HttpResponseMessage response = client.PostAsync(url, content).Result;
+                if (response.IsSuccessStatusCode)
+                {
+                    return RedirectToAction("List");
+                }
+                else
+                {
+                    return RedirectToAction("Error");
+                }
             }
             else
             {
-                return RedirectToAction("Error");
+                return RedirectToAction("LoginFailedAdmin");
             }
         }
     }

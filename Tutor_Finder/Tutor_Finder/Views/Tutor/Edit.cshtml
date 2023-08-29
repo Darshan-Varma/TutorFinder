@@ -3,18 +3,20 @@
 @{
     ViewBag.Title = "Edit";
 }
-
-<h2>Update Tutor</h2>
 <nav>
     <ul>
-        <li><a href="/Tutor/List">Go back to list</a></li>
-
-        <li><a style="color:#ab2020;" href="/Tutor/DeleteConfirm/@Model.Tutor.TutorID">Delete</a></li>
+        <li><a href="/Tutor/List">Tutor</a></li>
+        <li><a href="/Language/List">Language</a></li>
+        <li><a href="/Student/List">Student</a></li>
+        <li><a href="/Tutor/LoginAdmin">Logout</a></li>
     </ul>
 </nav>
+<br />
+<div><a href="/Tutor/DeleteConfirm/@Model.Tutor.TutorID">Delete</a></div>
+<h2>Update Tutor  </h2>
 <form action="/Tutor/Update/@Model.Tutor.TutorID" method="POST" enctype="multipart/form-data">
-    <div class="row">
-        <div class="col-md-6 col-sm-12">
+    <div class="">
+        <div class="">
             <div style="display:none;">
                 @* Pass through the Tutor ID *@
                 <input type="text" name="TutorID" value="@Model.Tutor.TutorID" />
@@ -26,14 +28,16 @@
                 <label>Last Name :</label> <input type="text" name="TutorLastName" value="@Model.Tutor.TutorLastName" />
             </div>
             <div>
-                <label>Language:</label>
-                <select name="LanguageId">
-                    @foreach (var Languages in Model.Language)
-                    {
-                        <option value="@Languages.LanguageID">@Languages.LanguageName</option>
-
-                    }
-                </select>
+                <label>Description:</label> <input type="text" name="TutorDescription" value="@Model.Tutor.TutorDescription"/>
+            </div>
+            <div>
+                <label>Contact Number:</label> <input type="text" name="ContactNumber" value="@Model.Tutor.ContactNumber"/>
+            </div>
+            <div>
+                <label>Social Media:</label> <input type="text" name="SocialMedia" value="@Model.Tutor.SocialMedia"/>
+            </div>
+            <div>
+                <label>EmailID:</label> <input type="text" name="EmailID" value="@Model.Tutor.EmailID"/>
             </div>
         </div>
 

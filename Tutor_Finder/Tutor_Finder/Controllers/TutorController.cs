@@ -24,15 +24,36 @@ namespace Tutor_Finder.Controllers
             //client.BaseAddress = new Uri("http://darshan0305-001-site1.gtempurl.com/api/");
         }
         // GET: Tutor/List
-        public ActionResult List()
+        public ActionResult List(Admin admin)
         {
-            string url = "TutorData/ListTutors";
-            HttpResponseMessage response = client.GetAsync(url).Result;
+            if (Session["AdminID"] != null)
+            {
+                string url = "TutorData/ListTutors";
+                HttpResponseMessage response = client.GetAsync(url).Result;
 
-            IEnumerable<TutorDTO> Tutor = response.Content.ReadAsAsync<IEnumerable<TutorDTO>>().Result;
+                IEnumerable<TutorDTO> Tutor = response.Content.ReadAsAsync<IEnumerable<TutorDTO>>().Result;
 
 
-            return View(Tutor);
+                return View(Tutor);
+            }
+            else if (admin.AdminEmailID != null)
+            {
+                bool isLogin = CheckAdminLogin(admin);
+                if (isLogin)
+                {
+                    string url = "TutorData/ListTutors";
+                    HttpResponseMessage response = client.GetAsync(url).Result;
+
+                    IEnumerable<TutorDTO> Tutor = response.Content.ReadAsAsync<IEnumerable<TutorDTO>>().Result;
+
+
+                    return View(Tutor);
+                }
+                else
+                    return RedirectToAction("LoginFailedAdmin");
+            }
+            else
+                return RedirectToAction("LoginFailedAdmin");
         }
         // GET: Tutor/MainPage
         public ActionResult MainPage(Tutor tutor)
@@ -87,6 +108,11 @@ namespace Tutor_Finder.Controllers
         {
             return View();
         }
+        // GET: Tutor/LoginFailedAdmin
+        public ActionResult LoginFailedAdmin()
+        {
+            return View();
+        }
         //GET: Tutor/GetStudentsForTutor/5
         public ActionResult GetStudentsForTutor(int id)
         {
@@ -115,7 +141,7 @@ namespace Tutor_Finder.Controllers
         //GET: Tutor/Details/5
         public ActionResult Details(int id)
         {
-            if (Session["StudentID"] != null)
+            if (Session["StudentID"] != null || Session["isAdmin"].ToString() == "true")
             {
                 TutorDetails ViewModel = new TutorDetails();
                 string url = "TutorData/FindTutor/" + id;
@@ -162,6 +188,34 @@ namespace Tutor_Finder.Controllers
                 Session["StudentName"] = TutorLoggedIn.TutorFirstName;
                 Session["isAdmin"] = "false";
                 Session["TutorID"] = TutorLoggedIn.TutorID;
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+        // POST: Tutor/CheckAdminLogin
+        [HttpPost]
+        public bool CheckAdminLogin(Admin admin)
+        {
+            string url = "TutorData/CheckAdminLogin";
+
+            string jsonpayload = jss.Serialize(admin);
+
+            HttpContent content = new StringContent(jsonpayload);
+            content.Headers.ContentType.MediaType = "application/json";
+
+            var response = client.PostAsync(url, content).Result;
+            IEnumerable<Admin> loggedInAdmin = response.Content.ReadAsAsync<IEnumerable<Admin>>().Result;
+
+            if (loggedInAdmin.Count() > 0)
+            {
+                Admin AdminLoggedIn = loggedInAdmin.SingleOrDefault();
+                Session["AdminEmailID"] = AdminLoggedIn.AdminEmailID;
+                Session["AdminName"] = AdminLoggedIn.AdminFirstName;
+                Session["isAdmin"] = "true";
+                Session["AdminID"] = AdminLoggedIn.AdminId;
                 return true;
             }
             else
@@ -287,7 +341,7 @@ namespace Tutor_Finder.Controllers
             HttpResponseMessage response = client.PostAsync(url, content).Result;
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("LoginTutor");
+                return RedirectToAction("List");
             }
             else
             {
@@ -297,6 +351,13 @@ namespace Tutor_Finder.Controllers
 
         // GET: Student/LoginTutor
         public ActionResult LoginTutor()
+        {
+            if (Session.Count > 0)
+                Session.RemoveAll();
+            return View();
+        }
+        // GET: Tutor/LoginAdmin
+        public ActionResult LoginAdmin()
         {
             if (Session.Count > 0)
                 Session.RemoveAll();

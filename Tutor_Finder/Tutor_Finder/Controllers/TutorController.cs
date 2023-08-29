@@ -341,7 +341,15 @@ namespace Tutor_Finder.Controllers
             HttpResponseMessage response = client.PostAsync(url, content).Result;
             if (response.IsSuccessStatusCode)
             {
-                return RedirectToAction("List");
+                if (Session["TutorID"] != null)
+                {
+                    return RedirectToAction("List");
+                }
+                else
+                {
+                    return RedirectToAction("LoginFailed");
+                }
+                
             }
             else
             {

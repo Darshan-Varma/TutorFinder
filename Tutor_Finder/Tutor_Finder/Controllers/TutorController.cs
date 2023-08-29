@@ -347,7 +347,7 @@ namespace Tutor_Finder.Controllers
                 }
                 else
                 {
-                    return RedirectToAction("LoginFailed");
+                    return RedirectToAction("LoginTutor");
                 }
                 
             }

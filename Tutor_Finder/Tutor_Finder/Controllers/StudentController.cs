@@ -100,28 +100,21 @@ namespace Tutor_Finder.Controllers
         [HttpPost]
         public ActionResult Create(Student Student)
         {
-            if (Session["AdminID"] != null)
+            string url = "StudentData/addStudent";
+
+            string jsonpayload = jss.Serialize(Student);
+
+            HttpContent content = new StringContent(jsonpayload);
+            content.Headers.ContentType.MediaType = "application/json";
+
+            HttpResponseMessage response = client.PostAsync(url, content).Result;
+            if (response.IsSuccessStatusCode)
             {
-                string url = "StudentData/addStudent";
-
-                string jsonpayload = jss.Serialize(Student);
-
-                HttpContent content = new StringContent(jsonpayload);
-                content.Headers.ContentType.MediaType = "application/json";
-
-                HttpResponseMessage response = client.PostAsync(url, content).Result;
-                if (response.IsSuccessStatusCode)
-                {
-                    return RedirectToAction("List");
-                }
-                else
-                {
-                    return RedirectToAction("Error");
-                }
+                return RedirectToAction("List");
             }
             else
             {
-                return RedirectToAction("LoginFailedAdmin");
+                return RedirectToAction("Error");
             }
         }
 
